@@ -58,7 +58,8 @@
   .ts-duty-sort-btn.active { background:var(--green-dark); color:#fff; border-color:var(--green-dark); font-weight:600; }
   .ts-filter-row { margin:6px 0; } .ts-filter-row select { width:auto; max-width:260px; padding:5px 8px; font-size:.9rem; }
   .ts-card { background:#fff; border:1px solid #e3dfcf; border-radius:10px; margin-bottom:10px; overflow:hidden; }
-  .ts-card.closed { background:#fbf7f0; } .ts-card.event { border-left:4px solid var(--gold); }
+  .ts-card.closed { background:#fbf7f0; } .ts-card.event { border-left:4px solid var(--gold); } .ts-card.tourn { border-left:4px solid var(--green); }
+  .tourn-teams td { vertical-align:top; } .me-txt { font-weight:700; color:var(--green-dark); } .tn-p { padding:2px 0; white-space:nowrap; } .tn-p select { margin-left:6px; font-size:.85rem; }
   .ts-card-row { display:flex; align-items:center; gap:14px; padding:13px 15px; cursor:pointer; }
   .ts-card-row:hover { background:#fbfaf5; }
   .ts-date-block { font-family:ui-monospace,Menlo,Consolas,monospace; text-align:center; width:52px; flex-shrink:0; border-right:1px dashed #e3dfcf; padding-right:12px; }
@@ -238,6 +239,13 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
   .em-aud { display:block; margin:5px 0; font-size:.92rem; cursor:pointer; }
   .em-sub { margin-left:24px; width:calc(100% - 24px); }
   .em-field { display:block; margin:8px 0 3px; }
+  .aw-dates { display: grid; grid-template-columns: max-content 170px; gap: 6px 10px; align-items: center; margin-top: 10px; }
+  .aw-dates label { margin: 0; } .aw-dates-btns { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .sec-nav { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 12px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+  .sec-nav .subtab-btn { padding: 5px 11px; } .sec-nav-all { margin-left: auto; white-space: nowrap; font-size: .86rem; }
+  .sec-card { scroll-margin-top: 70px; } .sec-h { cursor: pointer; display: flex; align-items: baseline; gap: 10px; } .sec-tg { font-size: .8rem; font-weight: 400; margin-left: auto; }
+  .sec-collapsed > :not(.sec-h) { display: none !important; } .sec-collapsed > .sec-h { margin-bottom: 0; }
+  @media (max-width: 600px) { .sec-nav { position: static; } .sec-nav-all { margin-left: 0; } }
   .subtab-btn.active { background: var(--green); border-color: var(--green); color: #fff; font-weight: 600; }
   #toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: #222; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 0.9rem; max-width: 92vw; z-index: 50; box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
   #toast.error { background: var(--error); }
@@ -288,6 +296,8 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
   .seg button.on { background: var(--green); color: #fff; font-weight: 600; }
   .admin-add { margin-top: 6px; }
   .admin-add select { max-width: 220px; font-size: 0.85rem; padding: 5px 6px; }
+  .admin-add-queue { margin-top: 6px; }
+  .name-chip.pending-add { border-style: dashed; opacity: .85; }
   .duty-instr { background: #f4f1e6; border-radius: 8px; padding: 10px 12px; margin: 4px 0 12px; font-size: 0.92rem; line-height: 1.45; } .duty-instr div + div { margin-top: 6px; } .duty-instr b { color: var(--green-dark); }
   .duty-box { background: #f4f1e6; border-radius: 8px; padding: 9px 11px; margin-top: 10px; font-size: 0.88rem; }
   .duty-box b { color: var(--green-dark); }
@@ -300,6 +310,20 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
   table.dt th { font-size: 0.74rem; text-transform: uppercase; color: var(--muted); }
   table.dt tr.past td { opacity: 0.5; }
   table.dt tr.mine td { background: #eef6f0; }
+  /* away weeks (Tom 2026-11-21) */
+  .aw-banner { border-left: 4px solid var(--gold, #c9a227); }
+  .aw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+  .aw-wk { display: flex; gap: 8px; align-items: flex-start; border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; cursor: pointer; background: #fafaf6; }
+  .aw-wk input { margin-top: 3px; }
+  .aw-wk b { display: block; } .aw-wk small { color: #666; font-size: 12px; }
+  .aw-wk.away { border-color: #b4412f; background: #f9e7e3; } .aw-wk.away b { color: #9a3322; }
+  .aw-wk.blocked { opacity: .6; cursor: default; }
+  .aw-ok { color: var(--green-dark); font-weight: 600; } .aw-due { color: #9a5b00; font-weight: 600; }
+  .aw-pill { display: inline-block; font-size: 12px; border-radius: 10px; padding: 1px 7px; margin: 0 3px 3px 0; border: 1px solid #b4412f; color: #9a3322; background: #f9e7e3; white-space: nowrap; }
+  .aw-pill.auto { border-color: #bbb; color: #555; background: #eee; }
+  .aw-pick { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .aw-pick button { font-size: 12px; padding: 2px 8px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+  .aw-pick button.on { border-color: #b4412f; color: #9a3322; background: #f9e7e3; }
   .role-p { color: #1565c0; font-weight: 600; font-size: 0.8em; }
   .cal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .cal-h { background: var(--green); color: #fff; font-weight: 700; text-align: center; padding: 6px; border-radius: 6px; }
@@ -331,6 +355,10 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
   .pin-yes { color: var(--ok); font-weight: 600; white-space: nowrap; }
   .pin-no { color: var(--muted); white-space: nowrap; }
   .dirty-note { color: #8a6300; font-weight: 600; font-size: 0.85rem; }
+  /* A Save button with changes waiting turns orange and pulses (Tom 2026-11-23). */
+  button.save-due { background: #c46a00 !important; color: #fff !important; border-color: #c46a00 !important; animation: saveDue 1.4s ease-in-out infinite; }
+  @keyframes saveDue { 0%, 100% { box-shadow: 0 0 0 0 rgba(196,106,0,.55); } 50% { box-shadow: 0 0 0 6px rgba(196,106,0,0); } }
+  @media (prefers-reduced-motion: reduce) { button.save-due { animation: none; box-shadow: 0 0 0 3px rgba(196,106,0,.35); } }
   .imp-ok { color: var(--ok); } .imp-bad { color: var(--error); font-weight: 600; } .imp-new { color: #1565c0; }
   .grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px 14px; }
   .grid2 label { display: block; font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-bottom: 3px; }
@@ -367,7 +395,7 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
     <button data-tab="roster">Roster</button>
     <button data-tab="handicaps">Handicaps</button>
     <button data-tab="files">Related Files</button>
-    <button data-tab="tournament">Annual Tournament</button>
+    <button data-tab="tournament">Tournaments</button>
     <button data-tab="admin">Admin</button>
   </nav>
   <main>
@@ -388,6 +416,7 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
         <div class="ts-section-title-row" style="margin-top:0;"><h2 style="margin:0;">Tee Time Duty</h2><button class="ts-print-btn no-print" id="dutyPrint" onclick="window.print()">🖨️ Print</button></div>
         <p class="hint">Who goes to the pro shop in person and who phones in, on each duty day. Each duty day requests tee times for two weeks later.</p>
         <div id="dutyInstr"></div>
+        <div id="dutyAway"></div>
         <div id="dutySwap"></div>
         <div class="view-btns no-print">
           <button class="subtab-btn active" data-dview="calendar">Calendar view</button>
@@ -412,7 +441,8 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
     </section>
 
     <section id="tab-tournament" class="tab-panel" hidden>
-      <div class="card">
+      <div id="tournBody"><div class="card hint">Loading…</div></div>
+      <div class="card" id="tournAnnualLinks" hidden>
         <h2>Heritage Legends Tournament</h2>
         <div class="row" style="align-items:stretch;">
           <a class="card" style="flex:1 1 240px; text-decoration:none; color:inherit; margin:0;" id="lnkLive" href="live.html" target="_blank" rel="noopener">
@@ -447,6 +477,7 @@ table.swap-tbl tr.swap-picked td:first-child b { color:var(--green, #2d5a3d); }
           <button type="button" class="subtab-btn active" data-group="setup" data-asub="duty">Tee Time Duty</button>
           <button type="button" class="subtab-btn" data-group="setup" data-asub="days">First Tee Time</button>
           <button type="button" class="subtab-btn" data-group="setup" data-asub="events">Events</button>
+          <button type="button" class="subtab-btn" data-group="setup" data-asub="tournaments">Tournaments</button>
           <button type="button" class="subtab-btn" data-group="setup" data-asub="emails">Emails</button>
           <button type="button" class="subtab-btn" data-group="info" data-asub="members" hidden>Members</button>
           <button type="button" class="subtab-btn" data-group="info" data-asub="handicaps" hidden>Handicaps</button>
@@ -495,7 +526,7 @@ const envParam = new URLSearchParams(location.search).get('env');
 const ENV = (envParam === 'test' || envParam === 'live') ? envParam : (location.href.toLowerCase().includes('test') ? 'test' : 'live');
 const CFG = CONFIG[ENV];
 // Bumped by hand every time this file changes.
-const APP_VERSION = '2026-11-20d';
+const APP_VERSION = '2026-11-24b';
 
 const SESSION_KEY = 'legends_member_' + ENV;   // { token, member } — remembered on this device
 const ADMIN_KEY = 'legends_appadmin_' + ENV;   // { name, pin } — this browser tab only
@@ -520,7 +551,7 @@ async function apiGet(action, extra) {
 // at the top of the screen, and the button that started it is disabled with a
 // spinner until the server answers, so it's always clear something is happening.
 const READ_ACTIONS = ['memberCheckEmail', 'memberLogin', 'verifyAdminPin', 'memberGetContact', 'memberRoster', 'getHandicaps', 'legendsGetBoard', 'legendsFileGet',
-  'getMembersAdmin', 'legendsReminderPreview', 'getAdmins', 'getActivityLog', 'adminPresence', 'legendsPairingsGet', 'legendsFunGet', 'legendsAttendanceGet'];
+  'getMembersAdmin', 'legendsReminderPreview', 'getAdmins', 'getActivityLog', 'adminPresence', 'legendsPairingsGet', 'legendsFunGet', 'legendsAttendanceGet', 'legendsTournPairGet', 'legendsTournEmailPreview'];
 function savingLabel(action) {
   if (/Upload/.test(action)) return 'Uploading…';
   if (/Import/.test(action)) return 'Importing…';
@@ -959,6 +990,7 @@ function renderCurrent() {
   if (currentTab === 'snapshot') renderSnapshot();
   else if (currentTab === 'signups') renderSignups();
   else if (currentTab === 'events') renderEvents();
+  else if (currentTab === 'tournament') renderTournaments();
   else if (currentTab === 'duty') renderDuty();
   else if (currentTab === 'files') renderFiles();
   else if (currentTab === 'roster') renderRoster();
@@ -1353,8 +1385,19 @@ function myId() { return session ? String(session.member.PlayerID) : null; }
 // change anything. Limited admins (role "Pages:days,events") see and save only those Admin pages.
 function amAdmin() { return !!adminSession && adminSession.role !== 'View' && !amLimited(); }
 function amLimited() { return !!adminSession && /^Pages:/.test(adminSession.role || ''); }
-function limitedPages() { return amLimited() ? adminSession.role.slice(6).split(',') : []; }
-const LIMITED_PAGE_NAMES = { duty: 'Setup › Tee Time Duty', days: 'Setup › First Tee Time', events: 'Setup › Events', handicaps: 'Info › Handicaps', pairnassau: 'Pairings › Nassau', pairfun: 'Pairings › Fun Group', noshows: 'Pairings › No-shows' };
+function limitedPages() {
+  if (!amLimited()) return [];
+  const p = adminSession.role.slice(6).split(',');
+  // a right for any one tournament ($10, $5, Annual) opens the Tournaments page (Tom 2026-11-23)
+  const t = p.filter((k) => TOURN_KINDS[k.slice(5)] && k.indexOf('tourn') === 0);
+  return t.length ? p.filter((k) => t.indexOf(k) === -1).concat(['tournaments']) : p;
+}
+// The tournament kinds this admin may change (all for a Full admin).
+function tournMyKinds() {
+  if (!amLimited()) return Object.keys(TOURN_KINDS);
+  return adminSession.role.slice(6).split(',').filter((k) => k.indexOf('tourn') === 0).map((k) => k.slice(5)).filter((k) => TOURN_KINDS[k]);
+}
+const LIMITED_PAGE_NAMES = { duty: 'Setup › Tee Time Duty', days: 'Setup › First Tee Time', events: 'Setup › Events', tournten: 'Setup › Tournaments: Ten Dollar', tournfive: 'Setup › Tournaments: Five Dollar', tournannual: 'Setup › Tournaments: Annual', handicaps: 'Info › Handicaps', pairnassau: 'Pairings › Nassau', pairfun: 'Pairings › Fun Group', noshows: 'Pairings › No-shows' };
 function amViewOnly() { return !!adminSession && adminSession.role === 'View'; }
 
 // ====================== SIGN-UPS TAB ======================
@@ -1363,6 +1406,7 @@ let openForm = null; // { key, group, mode: 'join'|'edit', signupId? } — the o
 function groupList(key, group) { return (board.signups || []).filter((s) => s.DateKey === key && s.Group === group); }
 function detailText(s) {
   if (s.Group === 'nassau') return s.Tee || '';
+  if (String(s.Group).indexOf('tourn:') === 0) return [s.Tee, s.Riding === 'TRUE' ? 'Riding' : ''].filter(Boolean).join(' ');
   if (s.Group !== 'fun') return '';
   const holes = s.Holes === 'F9' ? 'Front 9' : s.Holes === 'B9' ? 'Back 9' : '18';
   return [s.Tee, holes, s.Riding === 'TRUE' ? 'Riding' : ''].filter(Boolean).join(' ');
@@ -1394,14 +1438,22 @@ function mySummaryHtml(items) {
           l2: `${!p.standby ? `<b>#${p.n} on the list</b>` : `<b class="standby-txt">#${p.n} on standby</b>`}${det ? ` · ${escapeHtml(det)}` : ''}` +
             (second ? ` · <span class="standby-txt">also ${second.Group === 'fun' ? 'Fun' : 'Nassau'} standby #${groupPos(d.DateKey, second).n}</span>` : '') };
       }
+      const tf = dayTourn(d, 'fun'), tn = dayTourn(d, 'nassau'); // a tournament takes the place of that group's round
       if (found) mine.push(row(d.DateKey, found.l1, found.l2, toggleHtml(d, state, true)));
+      else if (tf && tn) return; // the tournament has its own line
       else if (state === 'open') {
         const f = groupList(d.DateKey, 'fun').length, n = groupList(d.DateKey, 'nassau').length;
         const room = (c, slots) => (c < slots ? `${slots - c} open` : c < slots + d.standbySlots ? 'standby only' : 'full');
-        canJoin.push(row(d.DateKey, `Fun: ${room(f, d.funSlots)} · Nassau: ${room(n, d.nassauSlots)}`, `closes ${escapeHtml(whenLabel(d.closesAt - clockSkew))}`, toggleHtml(d, state, true)));
+        canJoin.push(row(d.DateKey, [tf ? '' : `Fun: ${room(f, d.funSlots)}`, tn ? '' : `Nassau: ${room(n, d.nassauSlots)}`].filter(Boolean).join(' · '), `closes ${escapeHtml(whenLabel(d.closesAt - clockSkew))}`, toggleHtml(d, state, true)));
       } else if (state === 'notyet') {
         soon.push(`${escapeHtml(dateShort(d.DateKey))} <span class="hint">(opens ${escapeHtml(whenLabel(d.opensAt - clockSkew).replace(/^[A-Za-z]+, /, ''))})</span>`);
       }
+    } else if (it.type === 'tourn') {
+      const t = it.t, m = tournMine(t), st = tournState(t), list = tournSignups(t);
+      const l1 = `${TOURN_ICON} ${escapeHtml(t.title)} · ${escapeHtml(tournTimes(t))}`;
+      if (m) mine.push(row(t.DateKey, l1, `${m.standby ? `<b class="standby-txt">#${m.n} on standby</b>` : '<b>Signed up</b>'}${detailText(m.s) ? ` · ${escapeHtml(detailText(m.s))}` : ''}`, tournToggleHtml(t, true)));
+      else if (st === 'notyet' && t.opens <= addDays(board.today, SIGNUP_DAYS)) soon.push(`${TOURN_ICON} ${escapeHtml(t.title)} <span class="hint">(opens ${escapeHtml(dateShort(t.opens))})</span>`);
+      else if (st === 'open' && tournMayJoin(t) && list.length < t.slots + t.standbySlots) canJoin.push(row(t.DateKey, l1, `${list.length < t.slots ? `${t.slots - list.length} of ${t.slots} places left` : 'standby only'} · closes ${escapeHtml(whenLabel(t.closesAt - clockSkew))}`, tournToggleHtml(t, true)));
     } else {
       const e = it.e, group = 'event:' + e.EventID;
       const list = (board.signups || []).filter((x) => x.Group === group);
@@ -1532,12 +1584,30 @@ function chipHtml(s, n, key) {
   return `<span class="name-chip ${String(s.PlayerID) === myId() ? 'me' : ''}"><span class="chip-n">${n}</span>${escapeHtml(displayName(s.Name))}${det ? `<span class="chip-det">${escapeHtml(det)}</span>` : ''}${s.Note ? `<span class="chip-note">${escapeHtml(s.Note)}</span>` : ''}${rm}</span>${amAdmin() && adminEditId === s.SignupID ? adminEditHtml(s) : ''}`;
 }
 function adminEditHtml(s) {
-  const hasTee = s.Group === 'fun' || s.Group === 'nassau', tees = TEE_LIST();
+  const hasTee = s.Group === 'fun' || s.Group === 'nassau' || String(s.Group).indexOf('tourn:') === 0, tees = String(s.Group).indexOf('tourn:') === 0 ? tournTees() : TEE_LIST();
   const teeSel = hasTee ? `<label class="hint">Tees</label><select data-admin-edit-tee>${tees.indexOf(s.Tee) === -1 ? '<option value="" selected>Tees…</option>' : ''}${tees.map((t) => `<option ${t === s.Tee ? 'selected' : ''}>${escapeHtml(t)}</option>`).join('')}</select>` : '';
   return `<div class="ts-note-edit admin-edit" data-admin-edit-form="${escapeHtml(s.SignupID)}">${teeSel}<label class="hint">Comment</label><input type="text" maxlength="120" data-admin-edit-note value="${escapeHtml(s.Note || '')}"><button class="secondary" data-admin-edit-save>Save</button><button class="link" data-admin-edit-cancel>Cancel</button></div>`;
 }
+// Who's in the tournament that replaces this group (Tom 2026-11-23: show the players on the day card).
+function tournChipsHtml(d, g) {
+  const t = dayTournObj(d, g);
+  if (!t || (g === 'nassau' && dayTournObj(d, 'fun') === t)) return ''; // a Fun-and-Nassau tournament is listed once, under Fun
+  const list = tournSignups(t), inL = list.slice(0, t.slots), sb = list.slice(t.slots);
+  return `<span class="ts-empty">${TOURN_ICON} The ${escapeHtml(t.title)} plays in place of the ${g === 'fun' && t.who === 'fun' ? 'Fun Group' : 'Fun and Nassau groups'} this day.</span>
+      <div class="ts-chip-group-label">${TOURN_ICON} ${escapeHtml(t.title)} · ${escapeHtml(tournTimes(t))} · ${t.teeTimes} tee times · ${inL.length} of ${t.slots}</div>
+      ${inL.map((s, i) => chipHtml(s, i + 1)).join('') || '<span class="ts-empty">No one signed up yet</span>'}
+      ${sb.length ? `<div class="ts-chip-group-label standby">Standby (${sb.length} of ${t.standbySlots})</div>${sb.map((s, i) => chipHtml(s, i + 1)).join('')}` : ''}
+      ${amAdmin() && !d.closed ? adminAddHtml(t.DateKey, t.group) : ''}`;
+}
 function groupChipsHtml(d, g) {
   const list = groupList(d.DateKey, g), slots = g === 'fun' ? d.funSlots : d.nassauSlots;
+  const tt = dayTourn(d, g);
+  if (tt) {
+    // the tournament uses this group's tee times; anyone still on the list signed up before it was set up
+    return `<div class="grp2"><div class="ts-chip-group-label">${g === 'fun' ? 'Fun group' : 'Nassau group'}</div>
+      ${tournChipsHtml(d, g) || `<span class="ts-empty">${TOURN_ICON} No ${g === 'fun' ? 'Fun Group' : 'Nassau'} round this day: it's the ${escapeHtml(tt)}.</span>`}
+      ${list.length ? `<div class="ts-chip-group-label standby">Signed up before the tournament was set up</div>${list.map((s, i) => chipHtml(s, i + 1, d.DateKey)).join('')}` : ''}</div>`;
+  }
   const inL = list.slice(0, slots), sb = list.slice(slots);
   const n = g === 'fun' ? d.funTeeTimes : d.nassauTeeTimes;
   return `<div class="grp2">
@@ -1576,12 +1646,27 @@ function toggleHtml(d, state, compact) {
   const full = (g) => groupList(d.DateKey, g).length >= (g === 'fun' ? d.funSlots : d.nassauSlots) + d.standbySlots;
   const wouldStandby = (g) => groupList(d.DateKey, g).length >= (g === 'fun' ? d.funSlots : d.nassauSlots);
   const label = (g) => (g === 'fun' ? 'Fun' : 'Nassau');
+  const myT = tournUpcoming().find((t) => t.DateKey === d.DateKey && tournSignups(t).some((s) => String(s.PlayerID) === myId()));
+  if (!mine && myT) return tournToggleHtml(myT, compact, true);
+  // The tournament that replaces a group this day goes in the same "Click to sign up" list (Tom 2026-11-23).
+  const tOpts = [];
+  ['fun', 'nassau'].forEach((g) => {
+    const t = dayTournObj(d, g);
+    if (!t || tOpts.some((o) => o.t === t)) return;
+    const tl = tournSignups(t), ok = tournState(t) === 'open' && tournMayJoin(t), fullT = tl.length >= t.slots + t.standbySlots;
+    tOpts.push({ t, html: ok ? `<option value="tourn:${escapeHtml(t.TournID)}" ${fullT ? 'disabled' : ''}>${fullT ? `${escapeHtml(t.title)} — full` : tl.length >= t.slots ? `Standby · ${escapeHtml(t.title)}` : `Sign up · ${escapeHtml(t.title)}`}</option>` : '' });
+  });
+  const tOptFor = (g) => { const t = dayTournObj(d, g), o = t && tOpts.find((x) => x.t === t); if (!o) return `<option value="" disabled>${label(g)} — ${escapeHtml(dayTourn(d, g))}</option>`; const h = o.html; o.html = ''; return h; };
+  if (!mine && state !== 'open' && tOpts.some((o) => o.html)) {
+    return `<div class="ts-toggle-wrap"><select class="ts-signup-select" data-signup-select="${d.DateKey}">
+        <option value="out" selected>Click to sign up</option>${tOpts.map((o) => o.html).join('')}</select></div>`;
+  }
   if (!mine) {
     if (state === 'notyet') return `<span class="ts-closed-toggle-label">Opens ${escapeHtml(DOW[new Date(d.opensAt - clockSkew).getDay()])}</span>`;
     if (state === 'closed') return '<span class="ts-closed-toggle-label">Closed</span>';
     return `<div class="ts-toggle-wrap"><select class="ts-signup-select" data-signup-select="${d.DateKey}">
         <option value="out" selected>Click to sign up</option>
-        ${['fun', 'nassau'].map((g) => `<option value="${g}" ${full(g) ? 'disabled' : ''}>${full(g) ? `${label(g)} — full` : wouldStandby(g) ? `Standby · ${label(g)}` : `Sign up · ${label(g)}`}</option>`).join('')}
+        ${['fun', 'nassau'].map((g) => dayTourn(d, g) ? tOptFor(g) : `<option value="${g}" ${full(g) ? 'disabled' : ''}>${full(g) ? `${label(g)} — full` : wouldStandby(g) ? `Standby · ${label(g)}` : `Sign up · ${label(g)}`}</option>`).join('')}
       </select></div>`;
   }
   if (mine.pending) return `<div class="ts-toggle-wrap"><span class="ts-saving"><span class="spin"></span>Signing up…</span></div>`;
@@ -1590,7 +1675,7 @@ function toggleHtml(d, state, compact) {
   const second = myOtherSignupOn(d.DateKey);
   const secondPos = second ? groupPos(d.DateKey, second) : null;
   // On standby in one group and a spot open in the other (or playing and the other is down to standby): offer both.
-  const alsoOpt = second || state !== 'open' || full(other) || pos.standby === wouldStandby(other) ? ''
+  const alsoOpt = second || state !== 'open' || full(other) || dayTourn(d, other) || pos.standby === wouldStandby(other) ? ''
     : `<option value="also:${other}">${pos.standby ? `Also play ${label(other)} now (keep my standby)` : `Also go on ${label(other)} standby`}</option>`;
   let extra = '';
   const teeSelect = `<select class="ts-tee-select" data-tee-set="${escapeHtml(mine.SignupID)}">${mine.Tee ? '' : '<option value="" selected>Tees…</option>'}${TEE_LIST().map((t) => `<option ${t === mine.Tee ? 'selected' : ''}>${escapeHtml(t)}</option>`).join('')}</select>`;
@@ -1607,7 +1692,7 @@ function toggleHtml(d, state, compact) {
   return `<div class="ts-toggle-wrap"><select class="ts-signup-select in ${pos.standby ? 'standby' : ''}" data-signup-select="${d.DateKey}" data-mine="${escapeHtml(mine.SignupID)}">
       <option value="${mine.Group}" selected>${inLabel}</option>
       ${alsoOpt}
-      ${state === 'open' && !full(other) && !second ? `<option value="${other}">Switch to ${label(other)}</option>` : ''}
+      ${state === 'open' && !full(other) && !second && !dayTourn(d, other) ? `<option value="${other}">Switch to ${label(other)}</option>` : ''}
       ${second ? `<option value="drop:${escapeHtml(second.SignupID)}">Leave the ${label(second.Group)} standby list</option>` : ''}
       <option value="out">${state === 'closed' ? 'Remove me (late)' : 'Remove me'}${second ? ` from ${label(mine.Group)}` : ''}</option>
     </select>${extra}</div>`;
@@ -1629,7 +1714,7 @@ function schedDayCardHtml(d) {
   const mid = d.closed
     ? `<div class="ts-closed-line"><span class="closed-flag">🚫</span><span class="closed-text">No Legends tee times — ${escapeHtml(d.closed)}</span></div>${notice ? `<div>${notice}</div>` : ''}`
     : `<div class="ts-card-mid-top">
-        <span class="ts-count">Fun ${Math.min(f.length, d.funSlots)}/${d.funSlots} · Nassau ${Math.min(n.length, d.nassauSlots)}/${d.nassauSlots}</span>
+        <span class="ts-count">${d.tournFun ? `Fun: ${TOURN_ICON} ${escapeHtml(d.tournFun)}${dayTournCount(d, 'fun')}` : `Fun ${Math.min(f.length, d.funSlots)}/${d.funSlots}`} · ${d.tournNassau ? `Nassau: ${TOURN_ICON} ${escapeHtml(d.tournNassau)}${d.tournNassau === d.tournFun ? '' : dayTournCount(d, 'nassau')}` : `Nassau ${Math.min(n.length, d.nassauSlots)}/${d.nassauSlots}`}</span>
         ${sbF + sbN ? `<span class="ts-standby-count">+${sbF + sbN} standby</span>` : ''}
         ${stateChipHtml(d, state)} ${notice}
       </div>`;
@@ -1692,9 +1777,12 @@ function schedEventCardHtml(e) {
 function schedItems() {
   const items = board.dates.map((d) => ({ key: d.DateKey, type: 'day', d }));
   (board.events || []).filter((e) => e.DateKey >= board.today && String(e.Active).toUpperCase() !== 'FALSE').forEach((e) => items.push({ key: e.DateKey, type: 'event', e }));
-  return items.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : (a.type === 'event' ? 1 : -1)));
+  tournUpcoming().forEach((t) => items.push({ key: t.DateKey, type: 'tourn', t }));
+  const rank = { day: 0, tourn: 1, event: 2 };
+  return items.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : rank[a.type] - rank[b.type]));
 }
 function personOn(it, pid) {
+  if (it.type === 'tourn') return tournSignups(it.t).some((s) => String(s.PlayerID) === String(pid));
   if (it.type === 'day') return ['fun', 'nassau'].some((g) => groupList(it.key, g).some((s) => String(s.PlayerID) === String(pid)));
   return (board.signups || []).some((s) => s.Group === 'event:' + it.e.EventID && String(s.PlayerID) === String(pid));
 }
@@ -1705,13 +1793,14 @@ function renderSnapshot() {
   const head = `<div class="snap-head"><h2>My SUN Snapshot${who ? ` <span class="hint" style="font-weight:400;">· ${escapeHtml(who)}</span>` : ''}</h2><button class="ts-print-btn no-print" data-print>🖨️ Print</button></div>`;
   const body = session ? mySummaryHtml(schedItems())
     : '<div class="card"><p class="hint" style="margin:0;">You are signed in as an admin only, so there is no personal snapshot. Sign in with your member PIN to see your tee time duty, sign-ups and events here.</p></div>';
-  el.innerHTML = swapIncomingHtml() + newsCardHtml() + head + body;
+  el.innerHTML = awayBannerHtml() + swapIncomingHtml() + newsCardHtml() + head + body;
   wireSchedule(el);
   wireNews(el);
   wireSignups(el);
   wireSwaps(el);
+  wireAway(el);
 }
-// Events tab: every upcoming event (banquet, $5 / $10 tournaments, divot day...), as cards.
+// Events tab: every upcoming event (banquet, divot day...), as cards. Tournaments have their own tab (Tom 2026-11-23).
 function renderEvents() {
   const el = document.getElementById('eventsBody');
   const items = schedItems().filter((it) => it.type === 'event');
@@ -1722,11 +1811,180 @@ function renderEvents() {
   wireSchedule(el);
   wireSignups(el);
 }
+// ====================== TOURNAMENTS ($10, $5 and Annual — Tom 2026-11-23) ======================
+// Rounds of golf members sign up for like regular play: shown under Sign-ups and My SUN Snapshot
+// (My Sign-ups), and on the Tournaments tab. Set up on Admin › Setup › Tournaments.
+// Sign-ups use group "tourn:<TournID>"; board.tournaments comes from laTournBoard_.
+const TOURN_KINDS = { ten: { title: 'Ten Dollar Tournament', tee: 9, who: 'all' }, five: { title: 'Five Dollar Tournament', tee: 4, who: 'fun' }, annual: { title: 'Annual Tournament', tee: 9, who: 'all' } };
+const TOURN_ABOUT = {
+  ten: 'Uses all 9 Legends tee times, and Fun Group and Nassau Group players play together. Each one has its own format (for example Captain\'s Choice or the 1-2-3 Game), shown with its date. You choose Gold or Red tees when you sign up. Prizes for first, second and third place go by 18-hole net scores. Teams are made with an A, B, C and D player each (ranked by Handicap Index), so the teams come out about even. Usually the last Wednesday of each month, April through August. Sign-ups open two weeks before.',
+  five: 'Usually the second Wednesday of each month, May through September, on 4 tee times in place of the Fun Group (the Nassau group plays as usual). Any member can sign up, but it\'s one round a day: someone signed up for Nassau that day can\'t also play the Five Dollar Tournament. Teams are made with an A, B, C and D player each (ranked by Handicap Index), so the teams come out about even. Sign-ups open two weeks before.',
+  annual: 'The Heritage Legends two-day tournament. Sign-ups open on the date the admins set. Teams, live scoring and results are on the Scoreboard below.',
+};
+const TOURN_ICON = '🏌️';
+// The tees a tournament player chooses from (Tom 2026-11-23: Gold or Red), set on Admin › Setup › Tournaments.
+function tournTees() {
+  const all = TEE_LIST(), t = String(board.settings.TournTees || '').split(',').map((x) => x.trim()).filter((x) => all.indexOf(x) !== -1);
+  return t.length ? t : all;
+}
+function tournList() { return (board && board.tournaments) || []; }
+function tournById(id) { return tournList().find((t) => String(t.TournID) === String(id)) || null; }
+function tournOfGroup(g) { return String(g || '').indexOf('tourn:') === 0 ? tournById(String(g).slice(6)) : null; }
+function tournUpcoming() { return tournList().filter((t) => t.DateKey >= board.today && String(t.Active).toUpperCase() !== 'FALSE'); }
+function tournState(t) { const now = serverNow(); return now < t.opensAt ? 'notyet' : now > t.closesAt ? 'closed' : 'open'; }
+function tournSignups(t) { return (board.signups || []).filter((s) => s.Group === t.group); }
+function tournMine(t) {
+  const l = tournSignups(t), i = l.findIndex((s) => String(s.PlayerID) === myId());
+  return i === -1 ? null : { s: l[i], idx: i, standby: i >= t.slots, n: i >= t.slots ? i - t.slots + 1 : i + 1 };
+}
+function tournTimes(t) { return t.teeList && t.teeList.length ? `${t.teeList[0]} – ${t.teeList[t.teeList.length - 1]}` : 'times TBD'; }
+function tournWhoText(t) { return t.who === 'fun' ? 'Fun Group players' : 'Fun and Nassau players'; }
+// Any member may play (Tom 2026-11-23), but one round a day: not if already in that day's Fun or Nassau group (the server checks too).
+function tournMayJoin(t) { return !(board.signups || []).some((s) => s.DateKey === t.DateKey && (s.Group === 'fun' || s.Group === 'nassau') && String(s.PlayerID) === myId()); }
+// The tournament replacing a group on a play day ('' if none).
+function dayTourn(d, g) { return (g === 'fun' ? d.tournFun : d.tournNassau) || ''; }
+// The tournament itself that replaces a group on a play day (null if none).
+function dayTournObj(d, g) {
+  const tt = dayTourn(d, g);
+  if (!tt) return null;
+  return (d.tournId && tournById(d.tournId)) || tournList().find((t) => t.DateKey === d.DateKey && t.title === tt && (g === 'fun' || t.who !== 'fun')) || null;
+}
+function dayTournCount(d, g) { const t = dayTournObj(d, g); return t ? ` ${Math.min(tournSignups(t).length, t.slots)}/${t.slots}` : ''; }
+function tournStateChip(t) {
+  const st = tournState(t);
+  if (st === 'open') return `<span class="ts-win win-open">Open · closes ${escapeHtml(whenLabel(t.closesAt - clockSkew))}</span>`;
+  if (st === 'notyet') return `<span class="ts-win win-later">Opens ${escapeHtml(whenLabel(t.opensAt - clockSkew))}</span>`;
+  return '<span class="ts-win win-soon">Sign-ups closed</span>';
+}
+function tournToggleHtml(t, compact, named) {
+  if (!session) return '';
+  const st = tournState(t), m = tournMine(t), list = tournSignups(t);
+  if (m) {
+    if (m.s.pending) return '<div class="ts-toggle-wrap"><span class="ts-saving"><span class="spin"></span>Signing up…</span></div>';
+    const tees = tournTees();
+    const extra = !compact && st === 'open' ? `<div class="ts-holes-group"><select class="ts-tee-select" data-tee-set="${escapeHtml(m.s.SignupID)}">${m.s.Tee ? '' : '<option value="" selected>Tees…</option>'}${tees.map((x) => `<option ${x === m.s.Tee ? 'selected' : ''}>${escapeHtml(x)}</option>`).join('')}</select>
+        <select class="ts-tee-select" data-ride-set="${escapeHtml(m.s.SignupID)}"><option value="walking" ${m.s.Riding === 'TRUE' ? '' : 'selected'}>Walking</option><option value="riding" ${m.s.Riding === 'TRUE' ? 'selected' : ''}>Riding</option></select></div>` : '';
+    return `<div class="ts-toggle-wrap"><select class="ts-signup-select in ${m.standby ? 'standby' : ''}" data-tourn-select="${escapeHtml(t.TournID)}" data-mine="${escapeHtml(m.s.SignupID)}">
+        <option value="in" selected>${m.standby ? `Standby #${m.n}` : 'Signed up'}${named ? ` · ${escapeHtml(t.title)}` : ''} ✓</option><option value="out">${st === 'closed' ? 'Remove me (late)' : 'Remove me'}</option></select>${extra}</div>`;
+  }
+  if (st === 'notyet') { const o = keyDate(t.opens); return `<span class="ts-closed-toggle-label">Opens ${MON[o.getUTCMonth()]} ${o.getUTCDate()}</span>`; }
+  if (st === 'closed') return '<span class="ts-closed-toggle-label">Closed</span>';
+  if (!tournMayJoin(t)) return '<span class="ts-closed-toggle-label">In Nassau that day</span>';
+  if (list.length >= t.slots + t.standbySlots) return '<span class="ts-closed-toggle-label">Full</span>';
+  return `<div class="ts-toggle-wrap"><select class="ts-signup-select" data-tourn-select="${escapeHtml(t.TournID)}">
+      <option value="out" selected>Click to sign up</option><option value="in">${list.length >= t.slots ? 'Join standby' : `Sign up · ${escapeHtml(t.title)}`}</option></select></div>`;
+}
+// The teams (once made), for everyone to see: tee time, team, players (A to D).
+function tournPairsHtml(t) {
+  if (!t.pairings) return '';
+  const byId = {}; tournSignups(t).slice(0, t.slots).forEach((s) => { byId[String(s.PlayerID)] = s; });
+  const teams = t.pairings.teams.map((tm) => tm.filter((id) => byId[String(id)])).filter((tm) => tm.length);
+  if (!teams.length) return '';
+  return `<div class="ts-chip-group-label" style="margin-top:10px;">Teams</div><div class="tbl-wrap"><table class="ad tourn-teams"><thead><tr><th>Tee time</th><th>Team</th><th>Players (A, B, C, D)</th></tr></thead><tbody>
+    ${teams.map((tm, i) => `<tr><td><b>${escapeHtml((t.teeList || [])[i] || 'TBD')}</b></td><td>Team ${i + 1}</td><td>${tm.map((id) => `<span class="${String(id) === myId() ? 'me-txt' : ''}">${escapeHtml(displayName(byId[String(id)].Name))}</span>`).join(' · ')}</td></tr>`).join('')}
+    </tbody></table></div>`;
+}
+function schedTournCardHtml(t, withDuty) {
+  const key = 'tn-' + t.TournID, open = schedIsOpen(key), list = tournSignups(t), st = tournState(t);
+  const inL = list.slice(0, t.slots), sb = list.slice(t.slots), m = session ? tournMine(t) : null;
+  return `<div class="ts-card tourn" id="tourn-${escapeHtml(t.TournID)}">
+      <div class="ts-card-row" data-expand="${key}">
+        ${dateBlockHtml(t.DateKey)}
+        <div class="ts-card-mid"><div class="ts-card-mid-top"><span class="ts-count">${TOURN_ICON} ${escapeHtml(t.title)}</span><span class="ts-win win-later">${Math.min(list.length, t.slots)} of ${t.slots}${sb.length ? ` +${sb.length} standby` : ''}</span>${tournStateChip(t)}</div>
+          <div class="ts-duty">${escapeHtml(tournWhoText(t))} · ${t.teeTimes} tee times · ${escapeHtml(tournTimes(t))}${t.Game ? ` · Game: ${escapeHtml(t.Game)}` : ''}</div>
+          ${withDuty ? dutyLineHtml(t.DateKey) : ''}</div>
+        ${tournToggleHtml(t)}
+      </div>
+      <div class="ts-players ${open ? 'open' : ''}">${open ? `
+        ${t.Description ? `<p class="hint" style="margin:0 0 6px;white-space:pre-line;">${escapeHtml(t.Description)}</p>` : ''}
+        ${t.Prizes ? `<p class="hint" style="margin:0 0 6px;"><b>Prizes:</b> ${escapeHtml(t.Prizes)}</p>` : ''}
+        <div class="ts-chip-group-label">Signed up · ${inL.length} of ${t.slots}</div>
+        ${inL.map((s, i) => chipHtml(s, i + 1)).join('') || '<span class="ts-empty">No one signed up yet</span>'}
+        ${sb.length ? `<div class="ts-chip-group-label standby">Standby (${sb.length} of ${t.standbySlots})</div>${sb.map((s, i) => chipHtml(s, i + 1)).join('')}` : ''}
+        ${tournPairsHtml(t)}
+        ${m && st !== 'closed' ? myNoteEditorHtml(key, m.s) : ''}
+        ${amAdmin() ? adminAddHtml(t.DateKey, t.group) : ''}` : ''}
+      </div>
+    </div>`;
+}
+// Tees and walking/riding before a tournament sign-up is saved. Resolves { tee, riding } or null.
+function tournPick(t) {
+  return new Promise((resolve) => {
+    let box = document.getElementById('funPickBox');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'funPickBox';
+      box.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-start;justify-content:center;padding:60px 16px;z-index:50;overflow:auto;';
+      document.body.appendChild(box);
+    }
+    const tees = tournTees(), df = myFunDefaults('nassau');
+    box.hidden = false;
+    box.innerHTML = `<div class="card" style="max-width:420px;width:100%;">
+        <h2 style="margin-top:0;">${escapeHtml(t.title)} · ${escapeHtml(dateShort(t.DateKey))}</h2>
+        <p class="hint">${escapeHtml(tournWhoText(t))} · 18 holes · ${escapeHtml(tournTimes(t))}. Choose your tees and walking or riding, then click <b>Sign up</b>.</p>
+        <label style="display:block;">Tees (${escapeHtml(tees.join(' or '))})</label><select id="tpTee"><option value="">Choose tees…</option>${tees.map((x) => `<option>${escapeHtml(x)}</option>`).join('')}</select>
+        <label style="display:block;margin-top:8px;">Walking or riding</label><select id="tpRide"><option value="">Choose…</option><option value="walking">Walking</option><option value="riding">Riding</option></select>
+        <div class="row" style="margin-top:12px;"><button class="primary" id="tpGo" disabled>Sign up</button><button class="link" id="tpCancel">Cancel</button></div>
+      </div>`;
+    const tee = document.getElementById('tpTee'), ride = document.getElementById('tpRide'), go = document.getElementById('tpGo');
+    const check = () => { go.disabled = !(tee.value && ride.value); };
+    [tee, ride].forEach((x) => x.onchange = check);
+    const done = (v) => { box.hidden = true; box.innerHTML = ''; resolve(v); };
+    document.getElementById('tpCancel').onclick = () => done(null);
+    box.onclick = (e) => { if (e.target === box) done(null); };
+    go.onclick = () => { if (!go.disabled) done({ tee: tee.value, riding: ride.value === 'riding' }); };
+  });
+}
+async function onTournSelect(sel) {
+  const t = tournById(sel.dataset.tournSelect), v = sel.value, mineId = sel.dataset.mine;
+  if (!t) return;
+  if (mineId && v === 'out') {
+    const before = (board.signups || []).length;
+    await leaveSignup(mineId, tournState(t) === 'closed', false);
+    if ((board.signups || []).length === before) renderCurrent();
+    return;
+  }
+  if (!mineId && v === 'in') {
+    if (busy) { renderCurrent(); return; }
+    const pick = await tournPick(t);
+    if (!pick) { renderCurrent(); return; }
+    const body = { signupId: newId('s'), dateKey: t.DateKey, group: t.group, tee: pick.tee, riding: pick.riding, note: '' };
+    board.signups = (board.signups || []).concat([{ SignupID: body.signupId, DateKey: t.DateKey, Group: t.group, PlayerID: myId(), Name: session.member.Name,
+      Tee: pick.tee, Holes: '', Riding: pick.riding ? 'TRUE' : '', Note: '', SignedUpAt: Date.now(), pending: true }]);
+    renderCurrent();
+    const ok = await act('legendsJoin', body, `Signed up for the ${t.title}.`);
+    if (!ok) { board.signups = (board.signups || []).filter((s) => s.SignupID !== body.signupId); renderCurrent(); }
+  }
+}
+// Tournaments tab: a button for each kind, what it is, and its upcoming dates.
+let tournKind = 'ten';
+try { tournKind = localStorage.getItem('legends_tourn_kind') || 'ten'; } catch (e) {}
+function renderTournaments() {
+  const el = document.getElementById('tournBody');
+  if (!TOURN_KINDS[tournKind]) tournKind = 'ten';
+  const ups = tournUpcoming().filter((t) => t.Kind === tournKind);
+  const k = TOURN_KINDS[tournKind];
+  el.innerHTML = `<div class="card">
+      <div class="ts-section-title-row" style="margin-top:0;"><h2 style="margin:0;">Tournaments</h2><button class="ts-print-btn no-print" data-print>🖨️ Print</button></div>
+      <div class="view-btns no-print" style="margin-top:10px;">${Object.keys(TOURN_KINDS).map((x) => `<button class="subtab-btn ${x === tournKind ? 'active' : ''}" data-tourn-kind="${x}">${escapeHtml(TOURN_KINDS[x].title)}</button>`).join('')}</div>
+      <h3 style="margin:12px 0 4px;">${escapeHtml(k.title)}</h3>
+      <p class="hint" style="margin:0;">${escapeHtml(TOURN_ABOUT[tournKind])} You sign up here or under <a href="#" data-goto-tab="signups">Sign-ups</a>, just like a regular round.</p>
+    </div>
+    ${ups.map((t) => schedTournCardHtml(t)).join('') || `<div class="card"><p class="hint" style="margin:0;">No ${escapeHtml(k.title)} dates are set up yet.${amAdmin() ? ' Add them on Admin › Setup › Tournaments.' : ''}</p></div>`}`;
+  document.getElementById('tournAnnualLinks').hidden = tournKind !== 'annual';
+  el.querySelectorAll('[data-tourn-kind]').forEach((b) => b.onclick = () => { tournKind = b.dataset.tournKind; try { localStorage.setItem('legends_tourn_kind', tournKind); } catch (e) {} renderTournaments(); });
+  wireSchedule(el);
+  wireSignups(el);
+}
 const SIGNUP_DAYS = 15; // the Sign-ups tab shows today through two weeks from today (Tom 2026-11-18)
 function renderSignups() {
   const el = document.getElementById('signupsBody');
   const lastKey = addDays(board.today, SIGNUP_DAYS - 1);
-  const items = schedItems().filter((it) => it.type === 'day' && it.key <= lastKey);
+  // tournaments too: within the two weeks, or further out once their sign-ups are open (e.g. the Annual Tournament)
+  const items = schedItems().filter((it) => (it.type === 'day' && it.key <= lastKey) || (it.type === 'tourn' && (it.key <= lastKey || tournState(it.t) !== 'notyet')));
+  // a day a tournament takes over completely shows as the tournament (unless regular sign-ups are still on it)
+  const takenOver = (d) => d.tournFun && d.tournNassau && tournById(d.tournId) && !groupList(d.DateKey, 'fun').length && !groupList(d.DateKey, 'nassau').length;
+  const onTakenDay = (t) => { const d = board.dates.find((x) => x.DateKey === t.DateKey); return !!(d && takenOver(d)); };
   const filterId = schedFilter === '__me__' ? myId() : schedFilter;
   const roster = (board.roster || []).filter((r) => r.Active !== 'FALSE').sort((a, b) => a.Name.localeCompare(b.Name));
   if (['calendar', 'date', 'person'].indexOf(schedView) === -1) schedView = 'date';
@@ -1742,13 +2000,13 @@ function renderSignups() {
   let body = '';
   if (schedView === 'date') {
     const shown = filterId ? items.filter((it) => personOn(it, filterId)) : items;
-    body = shown.map((it) => (it.type === 'day' ? schedDayCardHtml(it.d) : schedEventCardHtml(it.e))).join('') || '<p class="ts-empty">No dates match this filter.</p>';
+    body = shown.map((it) => (it.type === 'day' ? (takenOver(it.d) ? '' : schedDayCardHtml(it.d)) : it.type === 'tourn' ? schedTournCardHtml(it.t, onTakenDay(it.t)) : schedEventCardHtml(it.e))).join('') || '<p class="ts-empty">No dates match this filter.</p>';
   } else if (schedView === 'calendar') {
-    const days = items.map((it) => it.d);
+    const days = items.filter((it) => it.type === 'day').map((it) => it.d);
     const col = (k) => { const w = dowOf(k); return w === 1 ? 0 : w === 3 ? 1 : 2; };
     const pad = days.length ? col(days[0].DateKey) : 0;
     body = `<div class="ts-cal-grid"><div class="ts-cal-header">Monday</div><div class="ts-cal-header">Wednesday</div><div class="ts-cal-header">Friday</div>
-      ${'<div class="ts-cal-cell ts-cal-blank"></div>'.repeat(pad)}${days.map((d) => `<div class="ts-cal-cell">${schedDayCardHtml(d)}</div>`).join('')}</div>`;
+      ${'<div class="ts-cal-cell ts-cal-blank"></div>'.repeat(pad)}${days.map((d) => `<div class="ts-cal-cell">${takenOver(d) ? schedTournCardHtml(tournById(d.tournId), true) : schedDayCardHtml(d)}</div>`).join('')}</div>`;
   } else if (schedView === 'person') {
     const people = filterId ? roster.filter((r) => String(r.PlayerID) === String(filterId)) : roster;
     body = people.map((p) => {
@@ -1759,6 +2017,10 @@ function renderSignups() {
           if (!s) return;
           const pos = groupPos(it.key, s);
           rows.push(`<tr><td class="ts-person-date">${escapeHtml(dateShort(it.key))}</td><td>${s.Group === 'fun' ? 'Fun' : 'Nassau'}${pos.standby ? ` <span class="ts-standby-count">standby #${pos.n}</span>` : ''}</td><td class="hint">${escapeHtml([detailText(s), s.Note].filter(Boolean).join(' · '))}</td></tr>`);
+        } else if (it.type === 'tourn') {
+          const l = tournSignups(it.t), i = l.findIndex((x) => String(x.PlayerID) === String(p.PlayerID));
+          if (i === -1) return;
+          rows.push(`<tr><td class="ts-person-date">${escapeHtml(dateShort(it.key))}</td><td>${TOURN_ICON} ${escapeHtml(it.t.title)}${i >= it.t.slots ? ` <span class="ts-standby-count">standby #${i - it.t.slots + 1}</span>` : ''}</td><td class="hint">${escapeHtml([detailText(l[i]), l[i].Note].filter(Boolean).join(' · '))}</td></tr>`);
         } else if (personOn(it, p.PlayerID)) {
           const s = (board.signups || []).find((x) => x.Group === 'event:' + it.e.EventID && String(x.PlayerID) === String(p.PlayerID));
           rows.push(`<tr><td class="ts-person-date">${escapeHtml(dateShort(it.key))}</td><td>${escapeHtml(it.e.Title)}</td><td class="hint">${escapeHtml(s.Note || '')}</td></tr>`);
@@ -1768,7 +2030,7 @@ function renderSignups() {
       return `<div class="ts-person-group"><div class="ts-person-name">${escapeHtml(displayName(p.Name))}</div>${rows.length ? `<table class="ts-person-table"><tbody>${rows.join('')}</tbody></table>` : '<p class="ts-empty">Not signed up for anything yet.</p>'}</div>`;
     }).join('') || '<p class="ts-empty">No one is signed up yet.</p>';
   }
-  el.innerHTML = controls + `<div id="schedBody">${body}</div><p class="hint no-print" style="margin-top:12px;">Events are on the <a href="#" data-goto-tab="events">Events</a> tab. Your own duty, sign-ups and events are on <a href="#" data-goto-tab="snapshot">My SUN Snapshot</a>.</p>`;
+  el.innerHTML = controls + `<div id="schedBody">${body}</div><p class="hint no-print" style="margin-top:12px;">Tournaments are here on their dates, and all of them are on the <a href="#" data-goto-tab="tournament">Tournaments</a> tab. Events are on the <a href="#" data-goto-tab="events">Events</a> tab. Your own duty, sign-ups and events are on <a href="#" data-goto-tab="snapshot">My SUN Snapshot</a>.</p>`;
   wireSchedule(el);
   wireSignups(el);
 }
@@ -1786,6 +2048,7 @@ function wireSchedule(el) {
   }));
   el.querySelectorAll('[data-signup-select]').forEach((s) => s.onchange = () => onSignupSelect(s));
   el.querySelectorAll('[data-event-select]').forEach((s) => s.onchange = () => onEventSelect(s));
+  el.querySelectorAll('[data-tourn-select]').forEach((s) => s.onchange = () => onTournSelect(s));
   el.querySelectorAll('[data-holes-set]').forEach((b) => b.onclick = () => { const [id, h] = b.dataset.holesSet.split('|'); act('legendsUpdate', { signupId: id, holes: h }, 'Saved.'); });
   el.querySelectorAll('[data-tee-set]').forEach((s) => s.onchange = () => act('legendsUpdate', { signupId: s.dataset.teeSet, tee: s.value }, 'Saved.'));
   el.querySelectorAll('[data-ride-set]').forEach((b) => b.onchange = () => act('legendsUpdate', { signupId: b.dataset.rideSet, riding: b.value === 'riding' }, 'Saved.'));
@@ -1798,6 +2061,7 @@ async function onSignupSelect(sel) {
   const key = sel.dataset.signupSelect, v = sel.value, mineId = sel.dataset.mine;
   const d = board.dates.find((x) => x.DateKey === key);
   const restore = () => renderCurrent();
+  if (v.indexOf('tourn:') === 0) { await onTournSelect({ dataset: { tournSelect: v.slice(6) }, value: 'in' }); return; }
   if (v.indexOf('drop:') === 0) {
     const before = (board.signups || []).length;
     await leaveSignup(v.slice(5), dayState(d) === 'closed', false);
@@ -1928,12 +2192,18 @@ function joinFormHtml(d, group) {
     </div>`;
 }
 
+// Admins pick several names, then add them all at once (Tom 2026-11-23). Picked names wait here until "Add".
+const adminAddQueue = {};
 function adminAddHtml(key, group) {
-  const taken = new Set((board.signups || []).filter((s) => s.DateKey === key && (group.indexOf('event:') === 0 ? s.Group === group : (s.Group === 'fun' || s.Group === 'nassau'))).map((s) => String(s.PlayerID)));
+  const qk = key + '|' + group, queued = adminAddQueue[qk] || [];
+  const taken = new Set((board.signups || []).filter((s) => s.DateKey === key && (group.indexOf(':') !== -1 ? s.Group === group : (s.Group === 'fun' || s.Group === 'nassau'))).map((s) => String(s.PlayerID)));
+  queued.forEach((id) => taken.add(String(id)));
+  const picked = queued.length ? `<div class="admin-add-queue">${queued.map((id) => { const r = rosterById(id); return `<span class="name-chip pending-add">${escapeHtml(displayName(r ? r.Name : id))}<button class="chip-remove" title="Take off the list" data-admin-unq="${escapeHtml(qk)}|${escapeHtml(id)}">×</button></span>`; }).join('')}
+    <div class="row" style="margin-top:6px;"><button class="primary save-due" data-admin-add-go="${escapeHtml(qk)}">Add ${queued.length} player${queued.length === 1 ? '' : 's'}</button><button class="link" data-admin-add-clear="${escapeHtml(qk)}">Cancel</button></div></div>` : '';
   const opts = (board.roster || []).filter((r) => r.Active !== 'FALSE' && !taken.has(String(r.PlayerID)))
     .sort((a, b) => a.Name.localeCompare(b.Name))
     .map((r) => `<option value="${escapeHtml(r.PlayerID)}">${escapeHtml(r.Name)}</option>`).join('');
-  return `<div class="admin-add"><select data-admin-add="${key}" data-group="${escapeHtml(group)}"><option value="">+ Admin: add a player…</option>${opts}</select></div>`;
+  return `<div class="admin-add"><select data-admin-add="${key}" data-group="${escapeHtml(group)}"><option value="">${queued.length ? '+ pick another player…' : '+ Admin: add players…'}</option>${opts}</select>${picked}</div>`;
 }
 
 function dutyForDay(key) { return (board.duty || []).filter((x) => x.DateKey === key); }
@@ -2017,7 +2287,10 @@ function wireSignups(el) {
     f.querySelector('[data-admin-edit-cancel]').onclick = () => { adminEditId = null; renderCurrent(); };
   });
   el.querySelectorAll('[data-switch]').forEach((b) => b.onclick = () => switchGroup(b.dataset.switch, b.dataset.key, b.dataset.group));
-  el.querySelectorAll('[data-admin-add]').forEach((s) => s.onchange = () => { if (s.value) adminAdd(s.dataset.adminAdd, s.dataset.group, s.value); });
+  el.querySelectorAll('[data-admin-add]').forEach((s) => s.onchange = () => { if (!s.value) return; const qk = s.dataset.adminAdd + '|' + s.dataset.group; (adminAddQueue[qk] = adminAddQueue[qk] || []).push(s.value); renderCurrent(); });
+  el.querySelectorAll('[data-admin-unq]').forEach((b) => b.onclick = () => { const p = b.dataset.adminUnq, i = p.lastIndexOf('|'), qk = p.slice(0, i), id = p.slice(i + 1); adminAddQueue[qk] = (adminAddQueue[qk] || []).filter((x) => String(x) !== id); renderCurrent(); });
+  el.querySelectorAll('[data-admin-add-clear]').forEach((b) => b.onclick = () => { delete adminAddQueue[b.dataset.adminAddClear]; renderCurrent(); });
+  el.querySelectorAll('[data-admin-add-go]').forEach((b) => b.onclick = () => adminAddMany(b.dataset.adminAddGo));
   const form = document.getElementById('joinForm');
   if (form && openForm) {
     form.querySelectorAll('#jfHoles button').forEach((b) => b.onclick = () => {
@@ -2078,7 +2351,7 @@ async function leaveSignup(signupId, late, asAdmin) {
   const who = asAdmin ? displayName(s.Name) : 'yourself';
   const msg = late
     ? 'Sign-ups for this date are closed. Remove yourself anyway? The admin will be emailed so the pro shop can be told, and the first person on standby moves up.'
-    : `Remove ${who} from the ${s.Group === 'fun' ? 'Fun group' : s.Group === 'nassau' ? 'Nassau group' : 'event'} on ${dateShort(s.DateKey)}?`;
+    : `Remove ${who} from the ${s.Group === 'fun' ? 'Fun group' : s.Group === 'nassau' ? 'Nassau group' : tournOfGroup(s.Group) ? tournOfGroup(s.Group).title : 'event'} on ${dateShort(s.DateKey)}?`;
   if (!confirm(msg)) return;
   await act('legendsLeave', { signupId, asAdmin: asAdmin || !session }, asAdmin ? `${displayName(s.Name)} removed.` : 'Removed.');
 }
@@ -2095,15 +2368,37 @@ async function switchGroup(signupId, key, toGroup) {
   if (pick) { body.tee = pick.tee; body.holes = pick.holes; body.riding = pick.riding; }
   await act('legendsJoin', body, `Switched to the ${toGroup === 'fun' ? 'Fun' : 'Nassau'} group${toGroup === 'fun' ? '.' : ' — check your tees.'}`);
 }
-async function adminAdd(key, group, playerId) {
+// Adds all the picked players in one save, in the order they were picked (Tom 2026-11-24).
+async function adminAddMany(qk) {
+  const ids = (adminAddQueue[qk] || []).slice(), i = qk.indexOf('|'), key = qk.slice(0, i), group = qk.slice(i + 1);
+  if (!ids.length || busy) return;
+  const tees = group.indexOf('tourn:') === 0 ? tournTees() : String(board.settings.TeeOptions || '').split(',').map((t) => t.trim()).filter(Boolean);
+  const hasTee = group === 'fun' || group === 'nassau' || group.indexOf('tourn:') === 0;
+  const many = ids.map((id) => ({ signupId: newId('a'), playerId: id, tee: hasTee ? prefTee(rosterById(id), tees) : '', holes: group === 'fun' ? '18' : '' }));
+  busy = true;
+  toast(`Adding ${ids.length} player${ids.length === 1 ? '' : 's'}…`);
+  try {
+    const res = await apiPost('legendsJoin', { dateKey: key, group, asAdmin: true, many: JSON.stringify(many) }, true);
+    if (!res.success) { if (!handleSignedOut(res.error)) toast(cleanError(res.error), true); return; }
+    const r = res.data.addResult || { added: ids, failed: [] };
+    adminAddQueue[qk] = r.failed.map((f) => f.playerId); // anyone who couldn't be added stays on the list
+    if (!adminAddQueue[qk].length) delete adminAddQueue[qk];
+    adoptBoard(res.data);
+    if (!r.failed.length) toast(`${r.added.length} player${r.added.length === 1 ? '' : 's'} added.`);
+    else toast(`${r.added.length} of ${ids.length} added. ${r.failed.map((f) => { const p = rosterById(f.playerId); return displayName(p ? p.Name : f.playerId) + ': ' + cleanError(f.error); }).join(' ')}`, true);
+  } catch (e) {
+    toast('Could not reach the server — check your connection and try again.', true);
+  } finally { busy = false; renderCurrent(); }
+}
+async function adminAdd(key, group, playerId, quiet) {
   const r = rosterById(playerId);
   const body = { signupId: newId('a'), dateKey: key, group, playerId, asAdmin: true };
-  if (group === 'fun' || group === 'nassau') {
-    const tees = String(board.settings.TeeOptions || '').split(',').map((t) => t.trim());
+  if (group === 'fun' || group === 'nassau' || group.indexOf('tourn:') === 0) {
+    const tees = group.indexOf('tourn:') === 0 ? tournTees() : String(board.settings.TeeOptions || '').split(',').map((t) => t.trim());
     body.tee = prefTee(r, tees.filter(Boolean));
     if (group === 'fun') body.holes = '18';
   }
-  await act('legendsJoin', body, `${displayName(r ? r.Name : '')} added.`);
+  return act('legendsJoin', body, quiet ? '' : `${displayName(r ? r.Name : '')} added.`);
 }
 
 // ====================== TEE TIME DUTY TAB ======================
@@ -2123,13 +2418,17 @@ function dutyDays() {
 }
 function dutyInstrHtml() {
   const st = board.settings || {};
-  const fill = (t) => String(t || '').replace(/\{arrive\}/g, 'the time shown for your day below').replace(/\{call\}/g, 'the time shown for your day below');
+  // {latest} is 90 minutes before the first tee time, {arrive} 2 hours: 30 minutes apart.
+  const fill = (t) => String(t || '').replace(/by \{latest\} \(preferably \{arrive\}\)/g, 'at the time shown for your day below (30 minutes later at the latest)')
+    .replace(/\{arrive\}/g, 'the time shown for your day below').replace(/\{latest\}/g, '30 minutes after the time shown for your day below').replace(/\{call\}/g, 'the time shown for your day below');
   const ip = fill(st.DutyInPersonText), ph = fill(st.DutyPhoneText);
   if (!ip && !ph) return '';
   return `<div class="duty-instr">${ip ? `<div><b>In person:</b> ${escapeHtml(ip)}</div>` : ''}${ph ? `<div><b>Phone in:</b> ${escapeHtml(ph)}</div>` : ''}</div>`;
 }
 function renderDuty() {
   const di = document.getElementById('dutyInstr'); if (di) di.innerHTML = dutyInstrHtml();
+  const da = document.getElementById('dutyAway');
+  if (da) { const keep = document.activeElement && document.activeElement.id === 'awayNote'; da.innerHTML = awayBoxHtml(); wireAway(da); if (keep) { const n = document.getElementById('awayNote'); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } } }
   const sel = document.getElementById('dutyFilter');
   const people = {};
   (board.duty || []).forEach((x) => { people[x.PlayerID] = x.Name; });
@@ -2200,10 +2499,75 @@ function renderDuty() {
   // The swap form sits above the view buttons, so they come right after "Send swap requests".
   // Keep any choices already made in the swap form when the page refreshes itself.
   const kept = {}; document.querySelectorAll('#dutySwap [data-swap-to]').forEach((x) => { kept[x.dataset.swapTo] = x.value; });
+  const keptW = {}; document.querySelectorAll('#dutySwap [data-swap-week]').forEach((x) => { keptW[x.dataset.swapWeek] = x.value; });
   document.getElementById('dutySwap').innerHTML = swapPanelHtml();
   document.querySelectorAll('#dutySwap [data-swap-to]').forEach((x) => { const v = kept[x.dataset.swapTo]; if (v && [...x.options].some((o) => o.value === v)) x.value = v; });
+  document.querySelectorAll('#dutySwap [data-swap-week]').forEach((x) => { const v = keptW[x.dataset.swapWeek]; if (v && [...x.options].some((o) => o.value === v)) x.value = v; });
   wireSwaps(document.getElementById('tab-duty'));
 }
+
+// ---------------- away weeks: "Weeks I can't do duty next quarter" (Tom 2026-11-21) ----------------
+// Each member sees only their own (board.dutyAway.mine; the server sends nobody else's).
+// Saving marks them as answered, which stops the reminder banner and emails. Weeks of the
+// quarter's first month are blocked for anyone with duty in the month before (no duty two
+// months running); those show ticked and greyed.
+let awayDraft = null; // { q, weeks: Set, note } while a member is ticking boxes
+function awayInfo() { return board.dutyAway || {}; }
+function awayMine() { const a = awayInfo(); return session && a.mine && !a.mine.noDuty ? a.mine : null; }
+function weekDaysLabel(m) {
+  const w = addDays(m, 2), f = addDays(m, 4), md = (k) => monDay(k), same = (a, b) => keyDate(a).getUTCMonth() === keyDate(b).getUTCMonth();
+  return `${md(m)}, ${same(m, w) ? keyDate(w).getUTCDate() : md(w)}, ${same(w, f) ? keyDate(f).getUTCDate() : md(f)}`;
+}
+function awayNeedsAnswer() { const q = awayInfo().quarter, m = awayMine(); return !!(q && m && q.state === 'open' && !m.done); }
+function awayBannerHtml() {
+  if (!awayNeedsAnswer()) return '';
+  const q = awayInfo().quarter;
+  return `<div class="card no-print aw-banner"><b>Tee Time Duty ${escapeHtml(q.label)}:</b> please tell us which weeks you can't do, by <b>${escapeHtml(dateShort(q.due))}</b>. <button class="link" data-goto-away>Mark my away weeks</button></div>`;
+}
+function awayBoxHtml() {
+  const a = awayInfo(), q = a.quarter, m = awayMine();
+  if (!q || !m) return '';
+  const range = `${dateShortY(q.start)} – ${dateShortY(q.end)}`;
+  if (q.state !== 'open') return ''; // members only see the box between the dates the admins set (Tom 2026-11-22)
+  const blocked = new Set(m.blocked || []), mon = a.blockedMonth || {};
+  if (!awayDraft || awayDraft.q !== q.id) awayDraft = { q: q.id, weeks: new Set(m.weeks || []), note: m.note || '' };
+  const open = q.state === 'open';
+  const status = m.done ? `<span class="aw-ok">✓ Saved${m.updatedAt ? ` ${escapeHtml(dateShort(String(m.updatedAt).slice(0, 10)))}` : ''}.</span> ${open ? `You can change it until ${escapeHtml(dateShort(q.due))}.` : ''}`
+    : open ? `<span class="aw-due">Not saved yet. Please save by ${escapeHtml(dateShort(q.due))}, even if you can do any week.</span>` : '<span class="aw-due">You didn\'t answer.</span>';
+  const weeks = q.weeks.map((w) => {
+    const bl = blocked.has(w), on = bl || awayDraft.weeks.has(w);
+    return `<label class="aw-wk ${on ? 'away' : ''} ${bl ? 'blocked' : ''}"><input type="checkbox" data-away-wk="${w}" ${on ? 'checked' : ''} ${bl || !open ? 'disabled' : ''}>
+      <span><b>Week of ${escapeHtml(monDay(w))}</b><small>${escapeHtml(weekDaysLabel(w))}${bl ? ` · duty in ${escapeHtml(mon.prev || 'the month before')}` : on ? ' · away' : ''}</small></span></label>`;
+  }).join('');
+  return `<div class="card no-print aw-box" id="awayBox">
+    <h3 style="margin:0 0 4px;font-size:1.15em;">Weeks I can't do duty next quarter: ${escapeHtml(q.label)}</h3>
+    <p class="hint" style="margin:0 0 6px;">${escapeHtml(range)}. Duty is one week a quarter (Monday, Wednesday and Friday). ${open ? 'Tick any week you\'ll be away or can\'t get tee times, then click <b>Save</b>.' : `The due date (${escapeHtml(dateShort(q.due))}) has passed. To change anything, ask a Tee Time Duty admin, or once duty is drawn, swap.`} Only you and the duty admins see this.</p>
+    ${blocked.size ? `<p class="hint" style="margin:0 0 6px;">You had duty in ${escapeHtml(mon.prev || 'the month before')}, so you won't get a ${escapeHtml(mon.first || 'first-month')} week (greyed out).</p>` : ''}
+    <div class="aw-grid">${weeks}</div>
+    <label class="hint" for="awayNote" style="display:block;margin-top:10px;">Note for the duty admins (optional)</label>
+    <input type="text" id="awayNote" maxlength="120" value="${escapeHtml(awayDraft.note)}" placeholder="e.g. In Florida mid-January, back Feb 1" ${open ? '' : 'disabled'} style="width:100%;max-width:520px;">
+    <div class="row" style="margin-top:8px;align-items:center;">${open ? `<button class="primary" id="awaySave">${awayDraft.weeks.size ? 'Save' : 'Save: I can do any week'}</button>` : ''}<span class="hint">${status}</span></div>
+  </div>`;
+}
+function wireAway(el) {
+  el.querySelectorAll('[data-goto-away]').forEach((b) => b.onclick = () => { selectTab('duty'); setTimeout(() => { const x = document.getElementById('awayBox'); if (x && x.scrollIntoView) x.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); });
+  el.querySelectorAll('[data-away-wk]').forEach((c) => c.onchange = () => {
+    if (c.checked) awayDraft.weeks.add(c.dataset.awayWk); else awayDraft.weeks.delete(c.dataset.awayWk);
+    const l = c.closest('.aw-wk'); l.classList.toggle('away', c.checked);
+    const s = document.getElementById('awaySave'); if (s) s.textContent = awayDraft.weeks.size ? 'Save' : 'Save: I can do any week';
+  });
+  const n = document.getElementById('awayNote'); if (n) n.oninput = () => { awayDraft.note = n.value; };
+  const s = document.getElementById('awaySave');
+  if (s) s.onclick = async () => {
+    const q = awayInfo().quarter, weeks = [...awayDraft.weeks].sort();
+    const ok = await act('legendsDutyAwaySave', { quarter: q.id, weeks: weeks.join(','), note: awayDraft.note.trim() },
+      weeks.length ? `Saved: ${weeks.length} week${weeks.length === 1 ? '' : 's'} you can't do. The duty admins will see it.` : 'Saved: you can do any week.');
+    if (ok) awayDraft = null;
+    renderCurrent();
+  };
+}
+// A week I said I can't do (any quarter from now on), for the swap warnings.
+function iAmAwayWeek(key) { const m = awayMine(); return !!(m && (m.allWeeks || []).includes(mondayOf(key))); }
 
 // ---------------- duty swaps (members) ----------------
 let swapFrom = null; // the duty date I'm offering to swap
@@ -2220,55 +2584,88 @@ function swapChoices(fromKey) {
     String(x.PlayerID) !== myId() && !onFrom.has(String(x.PlayerID)))
     .sort((a, b) => (a.DateKey < b.DateKey ? -1 : a.DateKey > b.DateKey ? 1 : a.Name.localeCompare(b.Name)));
 }
+// Whole-week swaps come first (Tom 2026-11-21): my weeks (every day still ahead), and other
+// people's weeks I could trade for (I have no duty that week; they have none in mine).
+function swapWhat(x) { return x.Week === 'TRUE' ? `week of ${monDay(mondayOf(x.FromKey))} ⇄ ${displayName(x.TargetName)}, week of ${monDay(mondayOf(x.ToKey))}` : `${dateShort(x.FromKey)} ⇄ ${displayName(x.TargetName)}, ${dateShort(x.ToKey)}`; }
+function dutyWeeksOf(pid) {
+  const by = {};
+  (board.duty || []).filter((x) => String(x.PlayerID) === String(pid)).forEach((x) => { (by[mondayOf(x.DateKey)] = by[mondayOf(x.DateKey)] || []).push(x); });
+  return Object.keys(by).sort().filter((m) => by[m].every((x) => x.DateKey >= board.today)).map((m) => ({ mon: m, rows: by[m].sort((a, b) => (a.DateKey < b.DateKey ? -1 : 1)) }));
+}
+function weekSwapChoices(myMon) {
+  const mineWeeks = new Set(dutyWeeksOf(myId()).map((w) => w.mon).concat((board.duty || []).filter((x) => String(x.PlayerID) === myId()).map((x) => mondayOf(x.DateKey))));
+  const onMine = new Set((board.duty || []).filter((x) => mondayOf(x.DateKey) === myMon).map((x) => String(x.PlayerID)));
+  const people = [...new Set((board.duty || []).map((x) => String(x.PlayerID)))].filter((id) => id !== myId() && !onMine.has(id));
+  const out = [];
+  people.forEach((id) => dutyWeeksOf(id).forEach((w) => { if (w.mon !== myMon && !mineWeeks.has(w.mon)) out.push({ id, name: w.rows[0].Name, mon: w.mon, first: w.rows[0].DateKey, role: w.rows.some((r) => r.Role === 'phone') ? 'phone in' : 'in person' }); }));
+  return out.sort((a, b) => (a.mon < b.mon ? -1 : a.mon > b.mon ? 1 : a.name.localeCompare(b.name)));
+}
 function myDutyDates() { return [...new Set((board.duty || []).filter((x) => String(x.PlayerID) === myId() && x.DateKey >= board.today).map((x) => x.DateKey))].sort(); }
 function swapRoleOf(key, pid) { const r = dutyForDay(key).find((x) => String(x.PlayerID) === String(pid)); return r ? (r.Role === 'phone' ? 'phone in' : 'in person') : ''; }
 function swapIncomingHtml() {
   if (!session) return '';
   const inc = myPendingSwaps().filter((x) => String(x.TargetID) === myId());
   return inc.map((x) => `<div class="card no-print" style="border-left:4px solid var(--gold, #c9a227);">
-      <b>Swap request:</b> ${escapeHtml(displayName(x.RequesterName))} would like to give you <b>${escapeHtml(dateShort(x.FromKey))}</b> (${escapeHtml(swapRoleOf(x.FromKey, x.RequesterID))}) and take your <b>${escapeHtml(dateShort(x.ToKey))}</b> (${escapeHtml(swapRoleOf(x.ToKey, x.TargetID))}).
+      <b>${x.Week === 'TRUE' ? 'Week swap request' : 'Swap request'}:</b> ${x.Week === 'TRUE' ? `${escapeHtml(displayName(x.RequesterName))} would like to give you the <b>week of ${escapeHtml(monDay(mondayOf(x.FromKey)))}</b> (${escapeHtml(swapRoleOf(x.FromKey, x.RequesterID))}) and take your <b>week of ${escapeHtml(monDay(mondayOf(x.ToKey)))}</b> (${escapeHtml(swapRoleOf(x.ToKey, x.TargetID))}).`
+        : `${escapeHtml(displayName(x.RequesterName))} would like to give you <b>${escapeHtml(dateShort(x.FromKey))}</b> (${escapeHtml(swapRoleOf(x.FromKey, x.RequesterID))}) and take your <b>${escapeHtml(dateShort(x.ToKey))}</b> (${escapeHtml(swapRoleOf(x.ToKey, x.TargetID))}).`}
+      ${iAmAwayWeek(x.FromKey) ? `<div class="hint" style="color:var(--error);margin-top:4px;">You said you can't do the week of ${escapeHtml(monDay(mondayOf(x.FromKey)))}.</div>` : ''}
       <div class="row" style="margin-top:8px;"><button class="primary" data-swap-accept="${escapeHtml(x.SwapID)}">Accept swap</button><button class="secondary" data-swap-decline="${escapeHtml(x.SwapID)}">Decline</button></div>
     </div>`).join('');
 }
 function swapPanelHtml() {
   let html = swapIncomingHtml();
   const out = myPendingSwaps().filter((x) => session && String(x.RequesterID) === myId());
-  if (out.length) html += `<div class="card no-print"><b>Your swap requests waiting for an answer</b>${out.map((x) => `<div style="margin-top:6px;">${escapeHtml(dateShort(x.FromKey))} ⇄ ${escapeHtml(displayName(x.TargetName))}, ${escapeHtml(dateShort(x.ToKey))} <button class="link danger" data-swap-cancel="${escapeHtml(x.SwapID)}">Cancel request</button></div>`).join('')}</div>`;
+  if (out.length) html += `<div class="card no-print"><b>Your swap requests waiting for an answer</b>${out.map((x) => `<div style="margin-top:6px;">${escapeHtml(swapWhat(x))} <button class="link danger" data-swap-cancel="${escapeHtml(x.SwapID)}">Cancel request</button></div>`).join('')}</div>`;
   if (amAdmin() && !session) {
     const all = myPendingSwaps();
-    if (all.length) html += `<div class="card no-print"><b>Open swap requests</b>${all.map((x) => `<div style="margin-top:6px;">${escapeHtml(displayName(x.RequesterName))} (${escapeHtml(dateShort(x.FromKey))}) ⇄ ${escapeHtml(displayName(x.TargetName))} (${escapeHtml(dateShort(x.ToKey))}) <button class="link danger" data-swap-cancel="${escapeHtml(x.SwapID)}">Cancel</button></div>`).join('')}</div>`;
+    if (all.length) html += `<div class="card no-print"><b>Open swap requests</b>${all.map((x) => `<div style="margin-top:6px;">${escapeHtml(displayName(x.RequesterName))} (${x.Week === 'TRUE' ? 'week of ' + escapeHtml(monDay(mondayOf(x.FromKey))) : escapeHtml(dateShort(x.FromKey))}) ⇄ ${escapeHtml(displayName(x.TargetName))} (${x.Week === 'TRUE' ? 'week of ' + escapeHtml(monDay(mondayOf(x.ToKey))) : escapeHtml(dateShort(x.ToKey))}) <button class="link danger" data-swap-cancel="${escapeHtml(x.SwapID)}">Cancel</button></div>`).join('')}</div>`;
   }
   // Always shown to a signed-in member with upcoming duty: every date of mine, each with
   // its own choice of who to trade with. (A Swap… link just highlights that date.)
   const mine = session ? myDutyDates() : [];
   if (mine.length) {
     const any = mine.some((k) => swapChoices(k).length);
+    const myWeeks = dutyWeeksOf(myId()).filter((w) => w.rows.length > 1);
+    const weekHtml = myWeeks.length ? `<h4 style="margin:6px 0 4px;">Swap a whole week</h4>
+      <p class="hint" style="margin-top:0;">Trade your whole duty week (Monday, Wednesday and Friday) for someone else's.</p>
+      <table class="swap-tbl"><thead><tr><th>My week</th><th>Swap the whole week with...</th></tr></thead>${myWeeks.map((w) => { const ch = weekSwapChoices(w.mon); return `<tr>
+        <td><b>Week of ${escapeHtml(monDay(w.mon))}</b><br><span class="hint">${escapeHtml(swapRoleOf(w.rows[0].DateKey, myId()))}</span></td>
+        <td>${ch.length ? `<select data-swap-week="${w.rows[0].DateKey}"><option value="">Keep this week</option>${ch.map((x) => `<option value="${x.first}|${escapeHtml(x.id)}">Week of ${escapeHtml(monDay(x.mon))} — ${escapeHtml(displayName(x.name))} (${x.role})${iAmAwayWeek(x.mon) ? ' · you can\'t do this week' : ''}</option>`).join('')}</select>` : '<span class="hint">No other weeks to swap with.</span>'}</td></tr>`; }).join('')}</table>
+      <h4 style="margin:14px 0 4px;">Or swap single days</h4>` : '';
     html += `<div class="card no-print" id="swapForm"><h3 style="margin-top:0;font-size:1.2em;">Swap your tee time duty dates</h3>
-      <p class="hint">Pick who you'd like to trade with for any or all of your dates; leave the others on “Keep this date”. Each person gets an email and must accept before anything changes. Each of you takes over the other's spot as it is (in person or phone in).</p>
+      <p class="hint">Each person gets an email and must accept before anything changes. Each of you takes over the other's spot as it is (in person or phone in).</p>${weekHtml}
+      <p class="hint" style="margin-top:0;">Pick who you'd like to trade with for any or all of your dates; leave the others on “Keep this date”.</p>
       <table class="swap-tbl"><thead><tr><th>My Dates</th><th>Request swap with...</th></tr></thead>${mine.map((k) => { const ch = swapChoices(k); return `<tr${k === swapFrom ? ' class="swap-picked"' : ''}>
         <td><b>${escapeHtml(dateShort(k))}</b><br><span class="hint">${escapeHtml(swapRoleOf(k, myId()))}</span></td>
-        <td>${ch.length ? `<select data-swap-to="${k}"><option value="">Keep this date</option>${ch.map((x) => `<option value="${x.DateKey}|${escapeHtml(x.PlayerID)}">${escapeHtml(dateShort(x.DateKey))} — ${escapeHtml(displayName(x.Name))} (${x.Role === 'phone' ? 'phone in' : 'in person'})</option>`).join('')}</select>` : '<span class="hint">No other duty dates to swap with.</span>'}</td></tr>`; }).join('')}</table>
-      <div class="row" style="margin-top:8px;">${any ? '<button class="primary" id="swapSend">Send swap requests</button>' : ''}<button class="link" id="swapClose">Clear</button></div></div>`;
+        <td>${ch.length ? `<select data-swap-to="${k}"><option value="">Keep this date</option>${ch.map((x) => `<option value="${x.DateKey}|${escapeHtml(x.PlayerID)}">${escapeHtml(dateShort(x.DateKey))} — ${escapeHtml(displayName(x.Name))} (${x.Role === 'phone' ? 'phone in' : 'in person'})${iAmAwayWeek(x.DateKey) ? ' · you can\'t do this week' : ''}</option>`).join('')}</select>` : '<span class="hint">No other duty dates to swap with.</span>'}</td></tr>`; }).join('')}</table>
+      <div class="row" style="margin-top:8px;">${any || myWeeks.some((w) => weekSwapChoices(w.mon).length) ? '<button class="primary" id="swapSend">Send swap requests</button>' : ''}<button class="link" id="swapClose">Clear</button></div></div>`;
   }
   return html;
 }
 function wireSwaps(el) {
   el.querySelectorAll('[data-swap-from]').forEach((b) => b.onclick = () => { swapFrom = b.dataset.swapFrom; renderCurrent(); const f = document.getElementById('swapForm'); if (f && f.scrollIntoView) f.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
-  const close = document.getElementById('swapClose'); if (close) close.onclick = () => { swapFrom = null; document.querySelectorAll('#dutySwap [data-swap-to]').forEach((x) => { x.value = ''; }); renderCurrent(); };
+  const close = document.getElementById('swapClose'); if (close) close.onclick = () => { swapFrom = null; document.querySelectorAll('#dutySwap [data-swap-to], #dutySwap [data-swap-week]').forEach((x) => { x.value = ''; }); renderCurrent(); };
   const send = document.getElementById('swapSend');
   if (send) send.onclick = async () => {
-    const picks = [...document.querySelectorAll('[data-swap-to]')].filter((x) => x.value).map((x) => { const [toKey, targetId] = x.value.split('|'); return { fromKey: x.dataset.swapTo, toKey, targetId }; });
-    if (!picks.length) { toast('Choose a date and person for at least one of your dates.', true); return; }
+    const weekPicks = [...document.querySelectorAll('[data-swap-week]')].filter((x) => x.value).map((x) => { const [toKey, targetId] = x.value.split('|'); return { fromKey: x.dataset.swapWeek, toKey, targetId, week: true }; });
+    const dayPicks = [...document.querySelectorAll('[data-swap-to]')].filter((x) => x.value).map((x) => { const [toKey, targetId] = x.value.split('|'); return { fromKey: x.dataset.swapTo, toKey, targetId }; });
+    const picks = weekPicks.concat(dayPicks);
+    if (!picks.length) { toast('Choose a week, or a date and person, for at least one of your dates.', true); return; }
+    if (weekPicks.length && dayPicks.some((d) => weekPicks.some((w) => mondayOf(w.fromKey) === mondayOf(d.fromKey)))) { toast('You picked a whole-week swap and a single-day swap for the same week. Choose one or the other.', true); return; }
+    const awayHit = picks.filter((x) => iAmAwayWeek(x.toKey));
+    if (awayHit.length && !confirm(`You said you can't do the week of ${awayHit.map((x) => monDay(mondayOf(x.toKey))).join(' and ')}. Ask for ${awayHit.length === 1 ? 'that swap' : 'those swaps'} anyway?`)) return;
     // Two of my dates can't both go to the same day, or I'd be on duty twice that day.
     const days = picks.map((x) => x.toKey);
     if (new Set(days).size !== days.length) { toast(`You picked ${dateShort(days.find((d, i) => days.indexOf(d) !== i))} twice. Choose a different date for one of them.`, true); return; }
     send.disabled = true;
     let sent = 0;
     for (const x of picks) if (await act('legendsSwapRequest', Object.assign({ siteUrl: location.origin + location.pathname }, x), '')) sent++; else break;
-    if (sent === picks.length) { swapFrom = null; document.querySelectorAll('#dutySwap [data-swap-to]').forEach((x) => { x.value = ''; }); renderCurrent(); toast(sent === 1 ? 'Swap request sent. They will get an email.' : `${sent} swap requests sent. Each person will get an email.`); }
+    if (sent === picks.length) { swapFrom = null; document.querySelectorAll('#dutySwap [data-swap-to], #dutySwap [data-swap-week]').forEach((x) => { x.value = ''; }); renderCurrent(); toast(sent === 1 ? 'Swap request sent. They will get an email.' : `${sent} swap requests sent. Each person will get an email.`); }
     else { renderCurrent(); if (sent) toast(`${sent} of ${picks.length} swap requests sent; the rest were not. See the list above.`, true); }
   };
   el.querySelectorAll('[data-swap-accept]').forEach((b) => b.onclick = async () => {
+    const x = myPendingSwaps().find((y) => y.SwapID === b.dataset.swapAccept);
+    if (x && iAmAwayWeek(x.FromKey) && !confirm(`You said you can't do the week of ${monDay(mondayOf(x.FromKey))}, and this swap puts you on duty then. Accept anyway?`)) return;
     if (!confirm('Accept this swap? Your tee time duty dates will change right away.')) return;
     await act('legendsSwapRespond', { swapId: b.dataset.swapAccept, accept: true, siteUrl: location.origin + location.pathname }, 'Swap done — your duty date has changed.');
   });
@@ -2560,6 +2957,7 @@ function showAdminSub(sub) {
     const inGroup = limitedPages().find((k) => { const x = document.querySelector(`#adminSubtabs [data-asub="${k}"]`); return x && btn0 && x.dataset.group === btn0.dataset.group; });
     sub = inGroup || limitedPages()[0];
   }
+  if (sub !== adminSub) { tournAdm.rows = null; tournAdm.fmt = null; } // Tournaments lists start fresh each visit
   adminSub = sub;
   setTimeout(() => adminPresencePing(), 0);
   const btn = document.querySelector(`#adminSubtabs [data-asub="${sub}"]`);
@@ -2591,6 +2989,28 @@ document.querySelectorAll('#adminGroups [data-agroup]').forEach((b) => b.addEven
 let adminDirty = false;
 function markDirty() { adminDirty = true; const n = document.getElementById('adDirty'); if (n) n.hidden = false; }
 window.addEventListener('beforeunload', (e) => { if (adminDirty) { e.preventDefault(); e.returnValue = ''; } });
+// Typing in an admin field lights up the Save button that goes with it: the one in the same
+// table row (First Tee Time), else in the same email panel, else in the same card (Tom 2026-11-23).
+// Pickers, filters and the small add/remove/swap forms that have their own button.
+const SAVE_DUE_SKIP = '[data-nosave],#tnPick,#faWho,#faTee,#faHoles,#faTeam,#frWho,#frRec,#dSwapA,#dSwapB,#dqPick,#dqPickDel,#dlFilter,#awQ,#awFilter,#actWho,#dutyFilter,#schedFilter,#rosterSearch';
+function saveButtonFor(field) {
+  const isSave = (b) => !b.hidden && /^save\b/i.test((b.dataset.label || b.textContent || '').trim()) && !/save now/i.test(b.textContent || '');
+  for (const sel of ['tr', '.em-item', '.card']) {
+    const box = field.closest(sel);
+    if (!box) continue;
+    const btns = [...box.querySelectorAll('button')].filter(isSave);
+    if (btns.length) return btns;
+  }
+  return [];
+}
+function markSaveDue(e) {
+  const f = e.target;
+  if (!f || !f.matches || !f.matches('input, select, textarea') || f.matches(VIEW_OK_FIELDS + ',' + SAVE_DUE_SKIP) || f.type === 'file') return;
+  saveButtonFor(f).forEach((b) => { if (!b.dataset.label) b.dataset.label = b.textContent.trim(); b.classList.add('save-due'); b.title = 'You have changes that are not saved yet'; });
+}
+document.addEventListener('input', (e) => { if (e.target.closest && e.target.closest('#adminContent')) markSaveDue(e); }, true);
+document.addEventListener('change', (e) => { if (e.target.closest && e.target.closest('#adminContent')) markSaveDue(e); }, true);
+document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('button.save-due'); if (b) { b.classList.remove('save-due'); b.title = ''; } }, true);
 
 // For view-only admins: after any admin page draws, hide the buttons that change
 // things and lock the fields (previews, date ranges and filters still work).
@@ -2721,6 +3141,7 @@ function renderAdminSub() {
   if (adminSub === 'closures') return renderClosuresAdmin(el);
   if (adminSub === 'teetimes') return renderTeeTimesAdmin(el);
   if (adminSub === 'events') return renderEventsAdmin(el);
+  if (adminSub === 'tournaments') return renderTournAdmin(el);
   if (adminSub === 'rules') return renderRulesAdmin(el);
   if (adminSub === 'activity') return renderActivityAdmin(el);
   if (adminSub === 'sugimport') return renderSugImportAdmin(el);
@@ -3893,8 +4314,8 @@ function renderDutyAdmin(el) {
   const roster = (board.roster || []).filter((r) => r.Active !== 'FALSE').sort((a, b) => a.Name.localeCompare(b.Name));
   const slotHtml = (key, i, sl) => `<div class="duty-slot" style="display:flex;gap:4px;align-items:center;">
       <select data-dk="${key}" data-i="${i}" style="max-width:145px;"><option value="">${sl.id ? '✕ Clear (no one)' : ''}</option>${roster.map((r) => `<option value="${escapeHtml(r.PlayerID)}" ${String(r.PlayerID) === String(sl.id) ? 'selected' : ''}>${escapeHtml(r.Name)}</option>`).join('')}</select>
-    </div>${dutySlotWarn(sl.id, sl.role)}`;
-  const extrasHtml = (key, d) => (d.extras || []).map((x, j) => { const r = rosterById(x.id); return `<div class="hint" style="white-space:nowrap;">also ${x.role === 'phone' ? 'phone in' : 'in person'}: ${escapeHtml(r ? r.Name : '?')} <button class="link danger" title="Remove this name" data-clear-extra="${key}" data-j="${j}" style="font-size:16px;line-height:1;">×</button>${dutySlotWarn(x.id, x.role)}</div>`; }).join('');
+    </div>${dutySlotWarn(sl.id, sl.role, key)}`;
+  const extrasHtml = (key, d) => (d.extras || []).map((x, j) => { const r = rosterById(x.id); return `<div class="hint" style="white-space:nowrap;">also ${x.role === 'phone' ? 'phone in' : 'in person'}: ${escapeHtml(r ? r.Name : '?')} <button class="link danger" title="Remove this name" data-clear-extra="${key}" data-j="${j}" style="font-size:16px;line-height:1;">×</button>${dutySlotWarn(x.id, x.role, key)}</div>`; }).join('');
   const keys = Object.keys(dutyEdit.days).sort();
   const onDuty = [...new Set(keys.flatMap((k) => dutyEdit.days[k].slots.concat(dutyEdit.days[k].extras || []).map((x) => x.id).filter(Boolean)))]
     .map(rosterById).filter(Boolean).sort((a, b) => a.Name.localeCompare(b.Name));
@@ -3967,7 +4388,49 @@ function renderDutyAdmin(el) {
   document.getElementById('dApply').onclick = applyDutyPaste;
   wireDutySetup(el);
   emEmbed(el, 'duty');
+  sectionNav(el, dutyCollapsed);
   if (adminDirty) document.getElementById('adDirty').hidden = false;
+}
+// ---- jump buttons and Collapse/Expand for long admin pages (Tom 2026-11-22) ----
+// Every top-level card with a heading gets a button in a bar that stays at the top of the
+// screen, and a Hide/Show toggle on its heading. What's hidden is remembered (per page)
+// while you're signed in, since the page redraws after every save.
+const dutyCollapsed = new Set();
+function sectionNav(el, collapsed) {
+  const cards = [...el.children].filter((c) => c.classList.contains('card'));
+  const secs = cards.map((c, i) => {
+    const h = c.querySelector(':scope > h2'), det = h ? null : c.querySelector(':scope > details');
+    const title = (h ? h.textContent : det ? det.querySelector('summary b').textContent : '').trim();
+    return title ? { c, h, det, title, id: 'sec-' + i } : null;
+  }).filter(Boolean);
+  if (secs.length < 2) return;
+  const apply = (x) => {
+    if (x.det) return;
+    const hide = collapsed.has(x.title);
+    x.c.classList.toggle('sec-collapsed', hide);
+    const t = x.h.querySelector('.sec-tg'); if (t) t.textContent = hide ? '▸ Show' : '▾ Hide';
+  };
+  const setHidden = (x, hide) => { if (x.det) x.det.open = !hide; else { if (hide) collapsed.add(x.title); else collapsed.delete(x.title); apply(x); } };
+  secs.forEach((x) => {
+    x.c.id = x.c.id || x.id; x.c.classList.add('sec-card');
+    if (x.h) {
+      x.h.classList.add('sec-h');
+      x.h.insertAdjacentHTML('beforeend', '<button type="button" class="link sec-tg no-print"></button>');
+      x.h.onclick = (e) => { if (e.target.closest('a,input,select')) return; setHidden(x, !collapsed.has(x.title)); };
+      apply(x);
+    }
+  });
+  const nav = document.createElement('div');
+  nav.className = 'card sec-nav no-print';
+  nav.innerHTML = `<span class="hint">Go to:</span>${secs.map((x, i) => `<button type="button" class="subtab-btn" data-sec="${i}">${escapeHtml(x.title)}</button>`).join('')}
+    <span class="sec-nav-all"><button type="button" class="link" data-sec-all="hide">Collapse all</button> · <button type="button" class="link" data-sec-all="show">Expand all</button> · <button type="button" class="link" data-sec-top>Top ↑</button></span>`;
+  el.prepend(nav);
+  nav.querySelectorAll('[data-sec]').forEach((b) => b.onclick = () => {
+    const x = secs[Number(b.dataset.sec)]; setHidden(x, false);
+    x.c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  nav.querySelectorAll('[data-sec-all]').forEach((b) => b.onclick = () => { secs.forEach((x) => setHidden(x, b.dataset.secAll === 'hide')); });
+  nav.querySelector('[data-sec-top]').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 // ---- duty export: spreadsheet and print/PDF (Tom 2026-11-16) ----
 // Exports what the table above shows (the From–To range, including changes not saved yet).
@@ -4137,8 +4600,11 @@ function heavyRoundFor(dutyKey, target) { const t = target || defaultTarget(duty
 function monDay(key) { const d = keyDate(key); return `${MON[d.getUTCMonth()]} ${d.getUTCDate()}`; }
 const DUTY_STATUS = { '': 'In person or phone', phone: 'Phone-in only', inperson: 'In-person only', nonmember: 'HGC non-member', medical: 'Medical leave' };
 // Why a name can't do this duty ('' = fine).
-function dutyProblem(id, role) {
+function dutyProblem(id, role, key) {
   if (!id) return '';
+  const aw = awayReason(id, key);
+  if (aw === 'away') return "said they can't do this week";
+  if (aw === 'auto') return 'had duty the month before';
   const r = rosterById(id), s = (dutyLists()[String(id)] || {}).s || '';
   if (r && r.Active === 'FALSE') return 'inactive';
   if (s === 'nonmember') return 'HGC non-member';
@@ -4147,7 +4613,7 @@ function dutyProblem(id, role) {
   if (role === 'phone' && s === 'inperson') return 'in-person only';
   return '';
 }
-function dutySlotWarn(id, role) { const p = dutyProblem(id, role); return p ? `<div class="imp-bad hint">${escapeHtml(p)}</div>` : ''; }
+function dutySlotWarn(id, role, key) { const p = dutyProblem(id, role, key); return p ? `<div class="imp-bad hint">${escapeHtml(p)}</div>` : ''; }
 // Quarters run Monday to Friday from the Monday of the week holding Jan 1, Apr 1, Jul 1 or Oct 1
 // (same as laQuarterOf_ on the server).
 function quarterStart(year, q) { return mondayOf(`${year}-${String(3 * q - 2).padStart(2, '0')}-01`); }
@@ -4187,28 +4653,59 @@ function generateDutyQuarter(qt) {
   const playDays = (m) => [0, 2, 4].map((o) => addDays(m, o)).filter((k) => k <= qt.end);
   const heavyWeek = weeks.map((m) => playDays(m).some(isHeavy));
   const n = weeks.length;
+  // Away weeks (Tom 2026-11-21): nobody goes in a week they marked, or in the quarter's first
+  // month if they had duty the month before.
+  const away = awayMap(qt);
+  const free = (r, i) => { const x = away[String(r.PlayerID)]; return !x || (!x.weeks.has(weeks[i]) && !x.auto.has(weeks[i])); };
+  const freeCount = (r) => weeks.filter((w, i) => free(r, i)).length;
   const phoneOnly = pool.filter((r) => status(r) === 'phone'), inPool = pool.filter((r) => status(r) !== 'phone');
-  const phoneSit = dueFirst(phoneOnly).slice(0, Math.max(0, phoneOnly.length - n));
+  // Who sits out: as before (fewest past sit-outs first), but someone away all quarter sits out first.
+  const sitFirst = (list) => { const gone = list.filter((r) => !freeCount(r)); return gone.concat(dueFirst(list.filter((r) => freeCount(r)))); };
+  const phoneSit = sitFirst(phoneOnly).slice(0, Math.max(0, phoneOnly.length - n));
   const callers = phoneOnly.filter((r) => !phoneSit.includes(r));
   const borrow = Math.max(0, n - callers.length); // not enough phone-in only people: others phone in too
   const inNeed = 2 * n + heavyWeek.filter(Boolean).length + borrow;
-  const inSit = dueFirst(inPool).slice(0, Math.max(0, inPool.length - inNeed));
-  let goers = shuffled(inPool.filter((r) => !inSit.includes(r)));
-  const borrowed = goers.filter((r) => status(r) === '').slice(0, borrow);
-  goers = goers.filter((r) => !borrowed.includes(r));
-  const phones = shuffled(callers.concat(borrowed));
+  const inSit = sitFirst(inPool).slice(0, Math.max(0, inPool.length - inNeed));
+  const inGo = inPool.filter((r) => !inSit.includes(r));
+  // Fill the weeks with the fewest free people first; in each, pick the people with the fewest
+  // free weeks. If a week can't be filled from those taking part, someone due to sit out who
+  // is free that week steps in. Best of many tries (fewest open spots, then fewest step-ins).
+  let best = null;
+  for (let t = 0; t < 400; t++) {
+    const used = new Set(), plan = {};
+    let open = 0, stepIns = 0;
+    const take = (lists2, i, ok) => {
+      for (let L = 0; L < lists2.length; L++) {
+        const c = shuffled(lists2[L].filter((r) => !used.has(r.PlayerID) && free(r, i) && ok(r))).sort((a, b) => freeCount(a) - freeCount(b))[0];
+        if (c) { used.add(c.PlayerID); if (L > 0) stepIns++; return c; }
+      }
+      open++; return null;
+    };
+    const order = shuffled(weeks.map((w, i) => i)).sort((a, b) => pool.filter((r) => free(r, a)).length - pool.filter((r) => free(r, b)).length);
+    order.forEach((i) => {
+      const ph = take([callers, inGo.filter((r) => status(r) === ''), phoneSit, inSit.filter((r) => status(r) === '')], i, (r) => status(r) !== 'inperson');
+      const ins = [take([inGo, inSit], i, () => true), take([inGo, inSit], i, () => true)];
+      if (heavyWeek[i]) ins.push(take([inGo, inSit], i, () => true));
+      plan[i] = { ph, ins };
+    });
+    const score = open * 1000 + stepIns;
+    if (!best || score < best.score) best = { plan, used, score, open };
+    if (!score) break;
+  }
   const days = {};
   weeks.forEach((m, i) => {
-    const a = goers.pop(), b = goers.pop(), c = phones.pop(), x = heavyWeek[i] ? goers.pop() : null;
+    const { ph, ins } = best.plan[i];
+    const [a, b, x] = ins;
     playDays(m).forEach((k) => {
       const people = [a, b].filter(Boolean).map((r) => ({ id: r.PlayerID, role: 'inperson' }));
       if (isHeavy(k) && x) people.push({ id: x.PlayerID, role: 'inperson' });
-      if (c) people.push({ id: c.PlayerID, role: 'phone' }); // on a heavy day, the backup
+      if (ph) people.push({ id: ph.PlayerID, role: 'phone' }); // on a heavy day, the backup
       days[k] = fillDutySlots(k, people); days[k].target = '';
     });
   });
   const open = Object.values(days).filter((d) => d.slots.filter((sl) => sl.id).length < 3).length;
-  return { days, sitOut: phoneSit.concat(inSit).sort((a, b) => a.Name.localeCompare(b.Name)), open };
+  const sitOut = pool.filter((r) => !best.used.has(r.PlayerID)).sort((a, b) => a.Name.localeCompare(b.Name));
+  return { days, sitOut, open };
 }
 let dutyFillTab = 'gen'; // which tab of the Quarter assignments card is showing
 function dutySetupHtml(importHtml) {
@@ -4219,12 +4716,12 @@ function dutySetupHtml(importHtml) {
   const hasDuty = (qt) => (board.duty || []).filter((d) => d.DateKey >= qt.start && d.DateKey <= qt.end).length;
   const qOptions = qs.map((qt) => `<option value="${qt.id}">${qt.label} (${escapeHtml(dateShortY(qt.start))} – ${escapeHtml(dateShortY(qt.end))})${hasDuty(qt) ? ` — ${hasDuty(qt)} assignments saved` : ''}</option>`).join('');
   const tab = (id, label) => `<button type="button" data-dqtab="${id}" class="${dutyFillTab === id ? 'on' : ''}">${label}</button>`;
-  return `
+  return awayAdminHtml() + `
     <div class="card">
       <h2>Quarter assignments</h2>
       <div class="seg" id="dqTabs" style="margin-bottom:10px;">${tab('gen', 'Generate Assignments')}${tab('imp', 'Import Assignments')}${tab('del', 'Delete Assignments')}</div>
       <div data-dqpane="gen" ${dutyFillTab === 'gen' ? '' : 'hidden'}>
-        <p class="hint"><b>Generate assignments</b> fills a whole quarter in the table above using the lists below: each week two people in person and one phone-in (from the Phone-in only list), and a third person in person for weeks with a heavy-demand day. Everyone eligible gets one week; the people left over sit out, starting with those who have sat out least, so nobody sits out twice until everyone else has. Change anything you like (or use Swap weeks), then click <b>Save duty</b>. Nothing is saved until then.</p>
+        <p class="hint"><b>Generate assignments</b> fills a whole quarter in the table above using the lists below: each week two people in person and one phone-in (from the Phone-in only list), and a third person in person for weeks with a heavy-demand day. Everyone eligible gets one week, never one of their <b>away weeks</b> (above); the people left over sit out, starting with those who have sat out least, so nobody sits out twice until everyone else has. Change anything you like (or use Swap weeks), then click <b>Save duty</b>. Nothing is saved until then.</p>
         <div class="row"><label class="hint">Quarter <select id="dqPick">${qOptions}</select></label><button class="primary" id="dqGen">Generate assignments</button></div>
       </div>
       <div data-dqpane="imp" ${dutyFillTab === 'imp' ? '' : 'hidden'}>${importHtml}</div>
@@ -4267,6 +4764,7 @@ async function saveDutySetup(body, statusId, msg) {
   if (ok) showStatus(statusId, true, msg);
 }
 function wireDutySetup(el) {
+  wireAwayAdmin(el);
   const pickQ = (id) => futureQuarters(4).find((qt) => qt.id === document.getElementById(id || 'dqPick').value);
   el.querySelectorAll('[data-dqtab]').forEach((b) => b.onclick = () => {
     dutyFillTab = b.dataset.dqtab;
@@ -4285,7 +4783,7 @@ function wireDutySetup(el) {
     renderDutyAdmin(el);
     showStatus('dqStatus', !g.open, `${qt.label} filled in above — review it, then click Save duty. ` +
       (g.sitOut.length ? `Sitting out this quarter (${g.sitOut.length}): ${g.sitOut.map((r) => displayName(r.Name)).join(', ')}.` : 'Nobody sits out.') +
-      (g.open ? ` Not enough eligible people: ${g.open} duty days have an open spot.` : ''));
+      (g.open ? ` Not enough people free: ${g.open} duty days have an open spot (check the away weeks).` : ''));
   };
   document.getElementById('dqDel').onclick = async () => {
     const qt = pickQ('dqPickDel'); if (!qt) return;
@@ -4300,6 +4798,14 @@ function wireDutySetup(el) {
     if (!a || !b || a === b) { showStatus('dStatus', false, 'Choose two different people.'); return; }
     let both = false;
     Object.values(dutyEdit.days).forEach((d) => d.slots.concat(d.extras || []).forEach((x) => { if (x.id === b) both = true; }));
+    // Warn first if the swap puts either of them in a week they can't do (Tom 2026-11-21).
+    const hits = [];
+    Object.keys(dutyEdit.days).forEach((k) => dutyEdit.days[k].slots.concat(dutyEdit.days[k].extras || []).forEach((x) => {
+      const to = x.id === a ? b : x.id === b ? a : null;
+      if (to && awayReason(to, k)) hits.push(`${displayName((rosterById(to) || {}).Name || '')}, week of ${monDay(mondayOf(k))} (${awayReason(to, k) === 'away' ? "said they can't do it" : 'had duty the month before'})`);
+    }));
+    const uniq = [...new Set(hits)];
+    if (uniq.length && !confirm(`This swap puts someone in a week they can't do:\n${uniq.join('\n')}\n\nSwap anyway?`)) return;
     Object.values(dutyEdit.days).forEach((d) => d.slots.concat(d.extras || []).forEach((x) => { x.id = x.id === a ? b : x.id === b ? a : x.id; }));
     markDirty(); renderDutyAdmin(el);
     const na = displayName((rosterById(a) || {}).Name || ''), nb = displayName((rosterById(b) || {}).Name || '');
@@ -4331,6 +4837,172 @@ function wireDutySetup(el) {
       if (s.value) out[id] = { s: s.value, r };
     });
     saveDutySetup({ lists: JSON.stringify(out) }, 'dListsStatus', 'Lists saved.');
+  };
+}
+
+// ---- away weeks on the admin duty page (Tom 2026-11-21) ----
+// board.dutyAway.all = everyone's saved entries for quarters not yet over; blocked weeks
+// (duty in the month before the quarter) are worked out here the same way as laAwayBlocked_.
+function awayRowsFor(qid) { return (awayInfo().all || []).filter((r) => r.Quarter === qid); }
+function quarterWeeks(qt) { const out = []; for (let m = qt.start; m <= qt.end; m = addDays(m, 7)) out.push(m); return out; }
+const MONTH_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function awayBlockedFor(qt) {
+  const y = Number(qt.id.slice(0, 4)), q = Number(qt.id.slice(-1)), first = 3 * q - 2;
+  const prev = first === 1 ? `${y - 1}-12` : `${y}-${String(first - 1).padStart(2, '0')}`;
+  const second = `${y}-${String(first + 1).padStart(2, '0')}-01`;
+  const weeks = quarterWeeks(qt).filter((m) => m < second), by = {};
+  (board.duty || []).forEach((d) => { if (String(d.DateKey).slice(0, 7) === prev) by[String(d.PlayerID)] = weeks; });
+  return { by, weeks, prev: MONTH_LONG[Number(prev.slice(5)) - 1], first: MONTH_LONG[first - 1] };
+}
+const awayCache = {};
+function awayMap(qt) {
+  // { pid: { weeks:Set (saved), auto:Set (blocked), note, done, by, at } }
+  const key = qt.id + '|' + (board.now || '');
+  if (awayCache[key]) return awayCache[key];
+  const out = {}, bl = awayBlockedFor(qt);
+  awayRowsFor(qt.id).forEach((r) => { out[r.PlayerID] = { weeks: new Set(String(r.Weeks || '').split(',').filter(Boolean)), auto: new Set(), note: r.Note || '', done: r.Done === 'TRUE', by: r.UpdatedBy || '', at: r.UpdatedAt || '' }; });
+  Object.keys(bl.by).forEach((pid) => { (out[pid] = out[pid] || { weeks: new Set(), auto: new Set(), note: '', done: false, by: '', at: '' }).auto = new Set(bl.by[pid]); });
+  return (awayCache[key] = out);
+}
+// Why this person shouldn't have duty the week holding key: '' | 'away' | 'auto'.
+function awayReason(id, key) {
+  if (!id || !key) return '';
+  const qt = quarterOf(key); if (!qt) return '';
+  const x = awayMap(qt)[String(id)]; if (!x) return '';
+  const m = mondayOf(key);
+  return x.weeks.has(m) ? 'away' : x.auto.has(m) ? 'auto' : '';
+}
+let awayAdminQ = null, awayEdit = null, awayFilter = 'all';
+function awayDueFor(qt) { const d = (awayInfo().due || {})[qt.id]; return d || addDays(qt.start, -21); }
+function awayOpenFor(qt) { const d = (awayInfo().open || {})[qt.id] || addDays(qt.start, -42), due = awayDueFor(qt); return d > due ? addDays(due, -7) : d; }
+function awayAdminHtml() {
+  const qs = futureQuarters(4);
+  if (!qs.length) return '';
+  if (!awayAdminQ || !qs.some((q) => q.id === awayAdminQ)) awayAdminQ = (awayInfo().quarter && qs.some((q) => q.id === awayInfo().quarter.id)) ? awayInfo().quarter.id : qs[0].id;
+  const qt = qs.find((q) => q.id === awayAdminQ), map = awayMap(qt), bl = awayBlockedFor(qt);
+  const lists = dutyLists();
+  const people = (board.roster || []).filter((r) => r.Active !== 'FALSE' && ['nonmember', 'medical'].indexOf((lists[String(r.PlayerID)] || {}).s || '') === -1).sort((a, b) => a.Name.localeCompare(b.Name));
+  const answered = people.filter((r) => (map[String(r.PlayerID)] || {}).done).length;
+  const withAway = people.filter((r) => { const x = map[String(r.PlayerID)]; return x && x.weeks.size; }).length;
+  const shown = people.filter((r) => { const x = map[String(r.PlayerID)] || {}; return awayFilter === 'all' || (awayFilter === 'no' ? !x.done : awayFilter === 'away' ? (x.weeks && x.weeks.size) || (x.auto && x.auto.size) : true); });
+  const due = awayDueFor(qt), opens = awayOpenFor(qt), custom = !!((awayInfo().due || {})[qt.id] || (awayInfo().open || {})[qt.id]);
+  const today = board.today, phase = today < opens ? `opens ${dateShort(opens)}` : today <= due ? '<b>open now</b>' : 'closed';
+  const pill = (m, auto) => `<span class="aw-pill ${auto ? 'auto' : ''}" title="${auto ? `Had duty in ${escapeHtml(bl.prev)}` : 'Can\'t do this week'}">${escapeHtml(monDay(m))}${auto ? ' (auto)' : ''}</span>`;
+  const rowHtml = (r) => {
+    const id = String(r.PlayerID), x = map[id] || { weeks: new Set(), auto: new Set(), note: '', done: false };
+    const weeksHtml = [...x.auto].sort().map((m) => pill(m, true)).join('') + [...x.weeks].sort().map((m) => pill(m, false)).join('') || '<span class="hint">None</span>';
+    const status = x.done ? `<span class="aw-ok">✓</span> <span class="hint">${x.by === 'member' ? 'by member' : `by ${escapeHtml(displayName(x.by))}`}${x.at ? ', ' + escapeHtml(dateShort(String(x.at).slice(0, 10))) : ''}</span>` : '<span class="aw-due">Not yet</span>';
+    if (awayEdit && awayEdit.id === id) {
+      return `<tr><td><b>${escapeHtml(r.Name)}</b></td><td>${status}</td><td colspan="2">
+        <div class="aw-pick">${quarterWeeks(qt).map((m) => x.auto.has(m) ? `<button type="button" disabled title="Had duty in ${escapeHtml(bl.prev)}">${escapeHtml(monDay(m))} (auto)</button>` : `<button type="button" data-aw-tg="${m}" class="${awayEdit.weeks.has(m) ? 'on' : ''}">${escapeHtml(monDay(m))}</button>`).join('')}</div>
+        <input type="text" id="awEditNote" maxlength="120" value="${escapeHtml(awayEdit.note)}" placeholder="Note" style="width:100%;max-width:420px;margin-top:6px;">
+        <div class="row" style="margin-top:6px;"><button class="primary" id="awEditSave">Save</button><button class="link" id="awEditCancel">Cancel</button><span class="hint">Saving with no weeks ticked means they can do any week.</span></div></td></tr>`;
+    }
+    return `<tr><td>${escapeHtml(r.Name)}</td><td>${status}</td><td>${weeksHtml}</td><td>${escapeHtml(x.note || '')} <button class="link" data-aw-edit="${escapeHtml(id)}">Edit</button></td></tr>`;
+  };
+  return `<div class="card" id="awayAdminCard">
+    <h2>Away weeks</h2>
+    <p class="hint">Weeks each member can't do tee time duty. Members tick their own on the Tee Time Duty tab (each sees only theirs) between the two dates below; you can enter or change anyone's here at any time. <b>Generate assignments</b> never puts anyone in one of these weeks. Anyone with duty in the last month of a quarter (e.g. December) is kept out of the next quarter's first month (shown as <i>auto</i>), so nobody has duty two months running.</p>
+    <div class="row" style="flex-wrap:wrap;align-items:flex-end;">
+      <label class="hint">Quarter <select id="awQ">${qs.map((q) => `<option value="${q.id}" ${q.id === qt.id ? 'selected' : ''}>${q.label} (${escapeHtml(dateShortY(q.start))} – ${escapeHtml(dateShortY(q.end))})</option>`).join('')}</select></label>
+    </div>
+    <div class="aw-dates">
+      <label class="hint" for="awOpen">Members can answer starting</label><input type="date" id="awOpen" value="${opens}">
+      <label class="hint" for="awDue">Members can answer until</label><input type="date" id="awDue" value="${due}">
+      <div class="aw-dates-btns"><button class="secondary" id="awDueSave">Save dates</button>${custom ? '<button class="link" id="awDueReset">Use the usual dates (6 to 3 weeks before)</button>' : ''}</div>
+    </div>
+    <p class="hint" style="margin:6px 0;">Members see the box on the Tee Time Duty tab only between these dates (${phase}). <b>${answered} of ${people.length}</b> have answered; ${withAway} ${withAway === 1 ? 'has' : 'have'} away weeks.${bl.weeks.length && Object.keys(bl.by).length ? ` ${Object.keys(bl.by).length} had duty in ${escapeHtml(bl.prev)}.` : ''}</p>
+    <div id="awStatus" class="status"></div>
+    <div class="row"><label class="hint">Show <select id="awFilter"><option value="all" ${awayFilter === 'all' ? 'selected' : ''}>Everyone who does duty (${people.length})</option><option value="no" ${awayFilter === 'no' ? 'selected' : ''}>Not answered yet (${people.length - answered})</option><option value="away" ${awayFilter === 'away' ? 'selected' : ''}>With away weeks</option></select></label></div>
+    <div class="tbl-wrap"><table class="ad" style="min-width:640px;"><thead><tr><th>Member</th><th>Answered</th><th>Can't do (week of)</th><th>Note</th></tr></thead><tbody>
+      ${shown.map(rowHtml).join('') || '<tr><td colspan="4" class="hint">No one.</td></tr>'}</tbody></table></div>
+    <details style="margin-top:10px;"><summary><b>Fill in from a list</b> <span class="hint">(after canvassing)</span></summary>
+      <p class="hint">One person per line: a name, then a comma or tab, then dates or ranges separated by <b>;</b>, for example <code>Hope, Bob, Jan 11 - Jan 22; Mar 15</code> or <code>Bob Hope	Feb 8</code>. Any week a date or range touches is marked. A name with no dates means they can do any week. Weeks are added to what's already there, and everyone listed counts as answered.</p>
+      <textarea id="awPaste" rows="5" placeholder="Hope, Bob, Jan 11 - Jan 22"></textarea>
+      <div class="row" style="margin-top:6px;"><button class="secondary" id="awRead">Read</button><button class="primary" id="awApply" disabled>Save these</button></div>
+      <div id="awPasteOut" class="hint" style="margin-top:6px;"></div>
+    </details>
+  </div>`;
+}
+// "Hope, Bob, Jan 11 - Jan 22; Mar 15" -> { pid, weeks:[Mondays], note:'' } or { error }
+function awayParseLine(line, qt) {
+  const roster = (board.roster || []).filter((r) => r.Active !== 'FALSE');
+  const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
+  const parts = line.split(/\t|,/).map((x) => x.trim());
+  const dateRe = /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i;
+  let i = parts.findIndex((x, j) => j > 0 && dateRe.test(x));
+  if (i < 0) i = parts.length;
+  const nameText = parts.slice(0, i).join(', '), dateText = parts.slice(i).join(',');
+  const n = norm(nameText.includes(',') ? nameText.split(',').slice(1).join(' ') + ' ' + nameText.split(',')[0] : nameText);
+  const firstLast = (r) => norm(r.Name.split(',').slice(1).join(' ') + ' ' + r.Name.split(',')[0]), lastFirst = (r) => norm(r.Name.replace(',', ' '));
+  let hit = roster.filter((r) => norm(displayName(r.Name)) === n || firstLast(r) === n);
+  if (!hit.length && !nameText.includes(',')) hit = roster.filter((r) => lastFirst(r) === norm(nameText)); // "Hope Bob"
+  if (!hit.length) hit = roster.filter((r) => norm(r.Name.split(',')[0]) === n);
+  if (hit.length !== 1) return { error: `${nameText || line}: ${hit.length ? 'more than one member matches' : 'not on the roster'}` };
+  const weeks = new Set(), qw = quarterWeeks(qt);
+  const yearFor = (mi) => (mi === 11 && qt.id.endsWith('Q1') ? Number(qt.id.slice(0, 4)) - 1 : Number(qt.start.slice(0, 4)) + (mi < keyDate(qt.start).getUTCMonth() ? 1 : 0));
+  const toKey = (mon, day) => { const mi = MON_IDX[mon.slice(0, 3).toLowerCase()]; return `${yearFor(mi)}-${String(mi + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`; };
+  for (const chunk of dateText.split(/[;,]/).map((x) => x.trim()).filter(Boolean)) {
+    const m = chunk.match(/^([a-z]{3})[a-z]*\.?\s*(\d{1,2})(?:\s*[-–]\s*(?:([a-z]{3})[a-z]*\.?\s*)?(\d{1,2}))?$/i);
+    if (!m) return { error: `${nameText}: couldn't read "${chunk}" (use e.g. Jan 11 or Jan 11 - Jan 22)` };
+    const a = toKey(m[1], m[2]), b = m[4] ? toKey(m[3] || m[1], m[4]) : a;
+    if (b < a) return { error: `${nameText}: "${chunk}" ends before it starts` };
+    qw.forEach((w) => { if (!(b < w || a > addDays(w, 4))) weeks.add(w); });
+  }
+  return { pid: String(hit[0].PlayerID), name: hit[0].Name, weeks: [...weeks].sort() };
+}
+let awayPasteItems = null;
+async function awayAdminSave(body, msg) {
+  const wasDirty = adminDirty;
+  const ok = await adminSave('legendsDutyAwaySave', Object.assign({ asAdmin: true }, body), 'awStatus', msg);
+  if (ok && wasDirty) markDirty();
+  if (ok) showStatus('awStatus', true, msg);
+  return ok;
+}
+function wireAwayAdmin(el) {
+  const card = el.querySelector('#awayAdminCard'); if (!card) return;
+  const qt = futureQuarters(4).find((q) => q.id === awayAdminQ);
+  const rerender = () => renderDutyAdmin(el);
+  card.querySelector('#awQ').onchange = (e) => { awayAdminQ = e.target.value; awayEdit = null; awayPasteItems = null; rerender(); };
+  card.querySelector('#awFilter').onchange = (e) => { awayFilter = e.target.value; rerender(); };
+  card.querySelector('#awDueSave').onclick = () => {
+    const v = card.querySelector('#awDue').value, o = card.querySelector('#awOpen').value;
+    if (!v || !o) { showStatus('awStatus', false, 'Choose both dates.'); return; }
+    if (v >= qt.start) { showStatus('awStatus', false, `The "until" date must be before the quarter starts (${dateShort(qt.start)}).`); return; }
+    if (o > v) { showStatus('awStatus', false, 'The "starting" date must be on or before the "until" date.'); return; }
+    saveDutySetup({ awayOpen: JSON.stringify(Object.assign({}, awayInfo().open || {}, { [qt.id]: o })), awayDue: JSON.stringify(Object.assign({}, awayInfo().due || {}, { [qt.id]: v })) }, 'awStatus', `Members can answer for ${qt.label} from ${dateShortY(o)} until ${dateShortY(v)}.`);
+  };
+  const rs = card.querySelector('#awDueReset');
+  if (rs) rs.onclick = () => { const d = Object.assign({}, awayInfo().due || {}), o = Object.assign({}, awayInfo().open || {}); delete d[qt.id]; delete o[qt.id]; saveDutySetup({ awayOpen: JSON.stringify(o), awayDue: JSON.stringify(d) }, 'awStatus', `${qt.label} is back to the usual dates: ${dateShortY(addDays(qt.start, -42))} until ${dateShortY(addDays(qt.start, -21))}.`); };
+  card.querySelectorAll('[data-aw-edit]').forEach((b) => b.onclick = () => {
+    const x = awayMap(qt)[b.dataset.awEdit] || { weeks: new Set(), note: '' };
+    awayEdit = { id: b.dataset.awEdit, weeks: new Set(x.weeks), note: x.note || '' }; rerender();
+  });
+  card.querySelectorAll('[data-aw-tg]').forEach((b) => b.onclick = () => { const m = b.dataset.awTg; if (awayEdit.weeks.has(m)) awayEdit.weeks.delete(m); else awayEdit.weeks.add(m); b.classList.toggle('on'); });
+  const note = card.querySelector('#awEditNote'); if (note) note.oninput = () => { awayEdit.note = note.value; };
+  const cancel = card.querySelector('#awEditCancel'); if (cancel) cancel.onclick = () => { awayEdit = null; rerender(); };
+  const save = card.querySelector('#awEditSave');
+  if (save) save.onclick = async () => {
+    const r = rosterById(awayEdit.id), w = [...awayEdit.weeks].sort();
+    if (await awayAdminSave({ playerId: awayEdit.id, quarter: qt.id, weeks: w.join(','), note: awayEdit.note.trim() },
+      `Saved ${displayName(r ? r.Name : '')}: ${w.length ? w.map(monDay).join(', ') : 'can do any week'}.`)) { awayEdit = null; renderDutyAdmin(el); }
+  };
+  const ta = card.querySelector('#awPaste'), out = card.querySelector('#awPasteOut'), apply = card.querySelector('#awApply');
+  card.querySelector('#awRead').onclick = () => {
+    const lines = ta.value.split('\n').map((x) => x.trim()).filter(Boolean), got = [], bad = [];
+    lines.forEach((l) => {
+      const r = awayParseLine(l, qt); if (r.error) { bad.push(r.error); return; }
+      const same = got.find((g) => g.pid === r.pid); // the same person on two lines: add the weeks together
+      if (same) same.weeks = [...new Set(same.weeks.concat(r.weeks))].sort(); else got.push(r);
+    });
+    awayPasteItems = got.length ? got : null; apply.disabled = !got.length;
+    out.innerHTML = (got.length ? `<b>Found ${got.length}:</b> ${got.map((g) => `${escapeHtml(displayName(g.name))} (${g.weeks.length ? g.weeks.map(monDay).join(', ') : 'any week'})`).join('; ')}` : 'Nothing found.') +
+      (bad.length ? `<div style="color:var(--error);margin-top:4px;"><b>Check:</b> ${bad.map(escapeHtml).join('; ')}</div>` : '');
+  };
+  apply.onclick = async () => {
+    if (!awayPasteItems) return;
+    const items = awayPasteItems.map((g) => ({ playerId: g.pid, weeks: g.weeks.join(',') }));
+    if (await awayAdminSave({ quarter: qt.id, batch: JSON.stringify(items) }, `Saved away weeks for ${items.length} member${items.length === 1 ? '' : 's'}.`)) { awayPasteItems = null; }
   };
 }
 
@@ -4563,7 +5235,9 @@ function listEditorHtml(id, title, hint, cols, rows) {
     <div class="tbl-wrap"><table class="ad"><thead><tr>${cols.map((c) => `<th>${c.label}</th>`).join('')}<th></th></tr></thead><tbody id="${id}Body">
     ${rows.map((r, i) => `<tr>${cols.map((c) => `<td>${c.type === 'check'
         ? `<input type="checkbox" data-le="${id}" data-i="${i}" data-f="${c.f}" ${(c.off ? String(r[c.f]).toUpperCase() === 'TRUE' : String(r[c.f]).toUpperCase() !== 'FALSE') ? 'checked' : ''}>`
-        : `<input type="${c.type || 'text'}" data-le="${id}" data-i="${i}" data-f="${c.f}" value="${escapeHtml(r[c.f] || '')}" placeholder="${escapeHtml(c.ph || '')}" style="${c.w ? 'width:' + c.w : 'width:100%'}">`}</td>`).join('')}
+        : c.type === 'textarea' ? `<textarea data-le="${id}" data-i="${i}" data-f="${c.f}" rows="${c.rows || 2}" placeholder="${escapeHtml(c.ph || '')}" style="${c.w ? 'width:' + c.w : 'width:100%'}">${escapeHtml(r[c.f] || '')}</textarea>`
+        : c.type === 'select' ? `<select data-le="${id}" data-i="${i}" data-f="${c.f}" style="${c.w ? 'width:' + c.w : ''}">${c.opts.map(([v, l]) => `<option value="${escapeHtml(v)}" ${String(r[c.f] || c.opts[0][0]) === v ? 'selected' : ''}>${escapeHtml(l)}</option>`).join('')}</select>`
+        : `<input type="${c.type || 'text'}" data-le="${id}" data-i="${i}" data-f="${c.f}" value="${escapeHtml(r[c.f] || '')}" placeholder="${escapeHtml(c.ph || '')}" ${c.list ? `list="${c.list}"` : ''} style="${c.w ? 'width:' + c.w : 'width:100%'}">`}</td>`).join('')}
       <td><button class="link danger" data-le-rm="${id}" data-i="${i}">Remove</button></td></tr>`).join('') || `<tr><td colspan="${cols.length + 1}" class="hint">None yet.</td></tr>`}
     </tbody></table></div>
     <div class="row" style="margin-top:10px;"><button class="secondary" data-le-add="${id}">+ Add</button><button class="primary" data-le-save="${id}">Save</button>${dirtyNote}</div>
@@ -4572,7 +5246,7 @@ function listEditorHtml(id, title, hint, cols, rows) {
 const listEdits = {};
 function wireListEditor(el, id, rows, action, cols, rerender) {
   listEdits[id] = rows;
-  el.querySelectorAll(`[data-le="${id}"]`).forEach((inp) => inp.addEventListener(inp.type === 'checkbox' ? 'change' : 'input', () => {
+  el.querySelectorAll(`[data-le="${id}"]`).forEach((inp) => inp.addEventListener(inp.type === 'checkbox' || inp.tagName === 'SELECT' ? 'change' : 'input', () => {
     rows[Number(inp.dataset.i)][inp.dataset.f] = inp.type === 'checkbox' ? (inp.checked ? 'TRUE' : 'FALSE') : inp.value;
     markDirty();
   }));
@@ -4617,7 +5291,7 @@ function renderEventsAdmin(el, rows) {
     { f: 'GuestPrompt', label: 'Ask for', ph: 'e.g. Spouse/guest name', w: '170px' },
     { f: 'Active', label: 'Show', type: 'check' },
   ];
-  el.innerHTML = listEditorHtml('ev', 'Other events', 'Banquet, $5 / $10 tournaments, divot filling day and anything else people sign up for. Events show on the Events tab in date order, and on everyone\'s My SUN Snapshot. Sign-ups open on the <b>Sign-ups open</b> date — it fills in as two weeks before the event when you pick the event date, and you can change it. Leave Limit blank for no limit; "Ask for" adds a box to each sign-up (e.g. a spouse or guest name). Untick Show to hide an event without deleting it and its sign-ups.', cols, rows);
+  el.innerHTML = listEditorHtml('ev', 'Other events', 'Banquet, divot filling day and anything else people sign up for (the Ten Dollar, Five Dollar and Annual tournaments are set up on Setup › Tournaments). Events show on the Events tab in date order, and on everyone\'s My SUN Snapshot. Sign-ups open on the <b>Sign-ups open</b> date — it fills in as two weeks before the event when you pick the event date, and you can change it. Leave Limit blank for no limit; "Ask for" adds a box to each sign-up (e.g. a spouse or guest name). Untick Show to hide an event without deleting it and its sign-ups.', cols, rows);
   wireListEditor(el, 'ev', rows, 'legendsSaveEvents', cols, (r) => renderEventsAdmin(el, r));
   // Picking an event date fills in "Sign-ups open" two weeks earlier (unless it was already set).
   el.querySelectorAll('[data-le="ev"][data-f="DateKey"]').forEach((inp) => inp.addEventListener('change', () => {
@@ -4628,6 +5302,261 @@ function renderEventsAdmin(el, rows) {
     }
   }));
   el.querySelectorAll('[data-le="ev"][data-f="SignupOpens"]').forEach((inp) => inp.addEventListener('input', () => { rows[Number(inp.dataset.i)]._autoOpens = false; }));
+}
+// ---------------- Admin › Setup › Tournaments (Tom 2026-11-23) ----------------
+// The list of tournaments ($10, $5, Annual), then pairings and the email for one of them,
+// then the email's settings.
+const tournAdm = { id: '', view: null, edit: null, rows: null, fmt: null, fmtOpen: false };
+// The last Wednesday of a month (month 1-12).
+function lastWednesday(year, month) {
+  const d = new Date(Date.UTC(year, month, 0, 12));
+  while (d.getUTCDay() !== 3) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+// The second Wednesday of a month (month 1-12): the Five Dollar Tournament (Tom 2026-11-23).
+function secondWednesday(year, month) {
+  const d = new Date(Date.UTC(year, month - 1, 1, 12));
+  while (d.getUTCDay() !== 3) d.setUTCDate(d.getUTCDate() + 1);
+  d.setUTCDate(d.getUTCDate() + 7);
+  return d.toISOString().slice(0, 10);
+}
+function tournAutoDates(r) {
+  if (!r.DateKey) return;
+  if (!r.SignupOpens || r._autoOpens) { r.SignupOpens = addDays(r.DateKey, -14); r._autoOpens = true; }
+  if (!r.SignupCloses || r._autoCloses) { r.SignupCloses = addDays(r.DateKey, -(Number(board.settings.TournCloseDaysBefore) || 3)); r._autoCloses = true; }
+}
+function renderTournAdmin(el, rows) {
+  // blank open/close dates show as the dates they work out to (two weeks before, TournCloseDaysBefore before)
+  const myKinds = tournMyKinds();
+  rows = rows || tournAdm.rows || copyRows(tournList()).filter((r) => myKinds.indexOf(r.Kind || 'ten') !== -1).map((r) => Object.assign(r, { SignupOpens: r.SignupOpens || r.opens || '', SignupCloses: r.SignupCloses || r.closes || '' })).sort((a, b) => (a.DateKey < b.DateKey ? -1 : 1));
+  tournAdm.rows = rows;
+  const games = (board.games || []), fmts = (board.tournFormats || []);
+  const cols = [
+    { f: 'Kind', label: 'Tournament', type: 'select', opts: myKinds.map((k) => [k, TOURN_KINDS[k].title]), w: '150px' },
+    { f: 'DateKey', label: 'Date', type: 'date', w: '145px' },
+    { f: 'SignupOpens', label: 'Sign-ups open', type: 'date', w: '145px' },
+    { f: 'SignupCloses', label: 'Sign-ups close (11:59 PM)', type: 'date', w: '145px' },
+    { f: 'TeeTimes', label: 'Tee times', type: 'number', w: '65px' },
+    { f: 'FirstTee', label: 'First tee time', ph: 'from First Tee Time', w: '170px' },
+    { f: 'Who', label: 'Who can play', type: 'select', opts: [['all', 'Fun and Nassau'], ['fun', 'Fun Group only']], w: '135px' },
+    { f: 'Game', label: 'Format / game', ph: 'pick or type', w: '190px', list: 'tournGames' },
+    { f: 'Prizes', label: 'Prizes', ph: '1st, 2nd, 3rd', w: '140px' },
+    { f: 'Description', label: 'Details (fills in from the format)', ph: 'How it is played, anything else players should know', type: 'textarea', rows: 3, w: '320px' },
+    { f: 'Title', label: 'Name shown', ph: 'blank = Ten Dollar Tournament etc.', w: '150px' },
+    { f: 'Active', label: 'Show', type: 'check' },
+  ];
+  // Regular sign-ups still on a day a tournament now takes over (made before it was set up).
+  const warn = [];
+  tournUpcoming().forEach((t) => {
+    const d = (board.dates || []).find((x) => x.DateKey === t.DateKey);
+    if (!d) return;
+    ['fun', 'nassau'].forEach((g) => {
+      const n = groupList(t.DateKey, g).length;
+      if (n && dayTourn(d, g)) warn.push(`${escapeHtml(dateShort(t.DateKey))}: ${n} ${g === 'fun' ? 'Fun Group' : 'Nassau'} sign-up${n === 1 ? ' is' : 's are'} still on the list from before the ${escapeHtml(t.title)} was set up. Ask them to sign up for the tournament, then remove them on Sign-ups (× on their name).`);
+    });
+  });
+  // An old "event" for a tournament (set up on Events before this page existed).
+  (board.events || []).filter((e) => e.DateKey >= board.today && String(e.Active).toUpperCase() !== 'FALSE' && /\$\s*(5|10)\b|tournament/i.test(e.Title || '')).forEach((e) => {
+    warn.push(`The event “${escapeHtml(e.Title)}” (${escapeHtml(dateShort(e.DateKey))}) is on Setup › Events. Tournaments now belong here: add it below, then untick Show on Events once its players have signed up again.`);
+  });
+  const year = (() => { const t = keyDate(board.today); return t.getUTCMonth() >= 7 ? t.getUTCFullYear() + 1 : t.getUTCFullYear(); })();
+  el.innerHTML = listEditorHtml('tn', 'Tournaments', `Each tournament shows under <b>Sign-ups</b> on its date (and on the <b>Tournaments</b> tab), and members sign up like a regular round. On its date it takes the place of regular play: <b>Fun and Nassau</b> replaces both groups (for the Ten Dollar Tournament, all 9 tee times); <b>Fun Group only</b> replaces the Fun Group, and the Nassau group plays as usual. Sign-ups open on <b>Sign-ups open</b> (it fills in as two weeks before when you pick the date; set your own for the Annual Tournament) and close at 11:59 PM on <b>Sign-ups close</b>. The places are tee times × ${escapeHtml(board.settings.PlayersPerTeeTime || '4')}, then a standby list. Tee times start at <b>First tee time</b>, or if that's blank, at the day's time on Setup › First Tee Time. Untick Show to hide one without losing its sign-ups.`, cols, rows) +
+    `<datalist id="tournGames">${fmts.map((f) => `<option value="${escapeHtml(f.Name)}">`).join('')}${games.filter((g) => !fmts.some((f) => f.Name.toLowerCase() === g.toLowerCase())).map((g) => `<option value="${escapeHtml(g)}">`).join('')}</datalist>
+    <div class="card" style="margin-top:-6px;"><div class="row"><button class="secondary" id="tnAddTen">+ Add the Ten Dollar Tournaments for ${year} (last Wednesday of April – August)</button>
+      <button class="secondary" id="tnAddFive">+ Add the Five Dollar Tournaments for ${year} (second Wednesday of May – September)</button></div>
+      <p class="hint" style="margin:8px 0 0;">The Five Dollar Tournament takes the Fun Group's 4 tee times that Wednesday, starting at the day's time on Setup › First Tee Time, and the Nassau group keeps its usual times after them.</p>
+      ${warn.length ? `<div class="status error" style="margin-top:10px;">${warn.map((w) => `<div>⚠️ ${w}</div>`).join('')}</div>` : ''}</div>
+    <div id="tnFmtCard"></div>
+    <div id="tnPairCard"></div>
+    <div id="tnMailCard"></div>`;
+  wireListEditor(el, 'tn', rows, 'legendsSaveTournaments', cols, (r) => renderTournAdmin(el, r));
+  el.querySelector('[data-le-save="tn"]').onclick = async () => {
+    const out = rows.map((r) => { const o = Object.assign({}, r); delete o._autoOpens; delete o._autoCloses; ['TournID', 'Kind', 'Title', 'DateKey', 'SignupOpens', 'SignupCloses', 'TeeTimes', 'FirstTee', 'Who', 'Game', 'Prizes', 'Description', 'Active'].forEach((k) => { if (o[k] === undefined) o[k] = ''; }); return o; });
+    tournAdm.rows = null;
+    if (!(await adminSave('legendsSaveTournaments', { rows: JSON.stringify(out) }, 'tnStatus', 'Tournaments saved.'))) tournAdm.rows = rows;
+  };
+  const onChange = (f, fn) => el.querySelectorAll(`[data-le="tn"][data-f="${f}"]`).forEach((inp) => inp.addEventListener('change', () => fn(rows[Number(inp.dataset.i)], inp)));
+  onChange('Kind', (r) => {
+    const k = TOURN_KINDS[r.Kind] || TOURN_KINDS.ten;
+    r.TeeTimes = String(k.tee); r.Who = k.who;
+    renderTournAdmin(el, rows); markDirty();
+  });
+  onChange('DateKey', (r) => { tournAutoDates(r); renderTournAdmin(el, rows); markDirty(); });
+  // picking a format fills in Details with its write-up (unless Details has your own wording)
+  onChange('Game', (r) => {
+    const f = fmts.find((x) => x.Name.toLowerCase() === String(r.Game || '').trim().toLowerCase());
+    if (f && (!String(r.Description || '').trim() || fmts.some((x) => x.Description === r.Description))) { r.Description = f.Description; renderTournAdmin(el, rows); }
+    markDirty();
+  });
+  ['SignupOpens', 'SignupCloses'].forEach((f) => el.querySelectorAll(`[data-le="tn"][data-f="${f}"]`).forEach((inp) => inp.addEventListener('input', () => { rows[Number(inp.dataset.i)][f === 'SignupOpens' ? '_autoOpens' : '_autoCloses'] = false; })));
+  // a new row starts as a $10 Tournament
+  el.querySelector('[data-le-add="tn"]').onclick = () => { const k = myKinds[0] || 'ten'; rows.push({ Kind: k, TeeTimes: String(TOURN_KINDS[k].tee), Who: TOURN_KINDS[k].who, Active: 'TRUE' }); markDirty(); renderTournAdmin(el, rows); };
+  if (myKinds.indexOf('ten') === -1) document.getElementById('tnAddTen').hidden = true;
+  if (myKinds.indexOf('five') === -1) document.getElementById('tnAddFive').hidden = true;
+  const addDates = (kind, months, dateOf) => {
+    const k = TOURN_KINDS[kind];
+    let added = 0;
+    months.forEach((m) => {
+      const key = dateOf(year, m);
+      if (key < board.today || rows.some((r) => r.DateKey === key && r.Kind === kind)) return;
+      const r = { Kind: kind, DateKey: key, TeeTimes: String(k.tee), Who: k.who, Active: 'TRUE' };
+      tournAutoDates(r); rows.push(r); added++;
+    });
+    rows.sort((a, b) => (String(a.DateKey) < String(b.DateKey) ? -1 : 1));
+    markDirty(); renderTournAdmin(el, rows);
+    showStatus('tnStatus', true, added ? `${added} ${k.title} date${added === 1 ? '' : 's'} added. Check them, then click Save.` : 'Those dates are already on the list.');
+  };
+  document.getElementById('tnAddTen').onclick = () => addDates('ten', [4, 5, 6, 7, 8], lastWednesday);
+  document.getElementById('tnAddFive').onclick = () => addDates('five', [5, 6, 7, 8, 9], secondWednesday);
+  // A blank First tee time shows the day's time from Setup › First Tee Time in grey (Tom 2026-11-23).
+  const teePh = () => el.querySelectorAll('[data-le="tn"][data-f="FirstTee"]').forEach((inp) => {
+    const d = el.querySelector(`[data-le="tn"][data-f="DateKey"][data-i="${inp.dataset.i}"]`);
+    const c = (board.dayConfig || []).find((x) => x.DateKey === (d ? d.value : ''));
+    const t = c && parseClock(c.LegendsFirst || '') !== null ? fmtClock(parseClock(c.LegendsFirst)) : '';
+    inp.placeholder = t ? t + ' (First Tee Time)' : 'TBD on First Tee Time';
+    inp.title = t ? `Blank uses ${t}, the day's first time on Setup › First Tee Time. Type a time only to start somewhere else.` : 'No first tee time on Setup › First Tee Time for this date yet.';
+  });
+  teePh();
+  el.querySelectorAll('[data-le="tn"][data-f="DateKey"]').forEach((d) => d.addEventListener('change', teePh));
+
+  renderTournFmtCard();
+  renderTournPairCard();
+  renderTournMailCard();
+}
+// The tournament formats (name + how it's played) offered in the Format / game box.
+function renderTournFmtCard(rows) {
+  const box = document.getElementById('tnFmtCard');
+  if (!box) return;
+  rows = rows || tournAdm.fmt || copyRows(board.tournFormats || []);
+  tournAdm.fmt = rows;
+  const cols = [{ f: 'Name', label: 'Format', ph: "e.g. Four Man Captain's Choice", w: '200px' }, { f: 'Description', label: 'How it is played (goes into the tournament\'s Details)', type: 'textarea', rows: 4 }];
+  box.innerHTML = listEditorHtml('tf', 'Tournament formats', 'The formats offered in the <b>Format / game</b> box above (Larry\'s games are offered too). Picking one fills in the tournament\'s Details, which players see on Sign-ups and the Tournaments tab and in the pairings email; you can then change the wording for that day.', cols, rows).replace('<div class="card">', '<div class="card"><details' + (tournAdm.fmtOpen ? ' open' : '') + ' id="tfDetails"><summary style="cursor:pointer;font-weight:600;">Tournament formats (' + rows.length + ')</summary>') .replace(/<\/div>$/, '</details></div>').replace('<h2>Tournament formats</h2>', '');
+  wireListEditor(box, 'tf', rows, 'legendsTournFormatsSave', cols, (r) => { tournAdm.fmtOpen = true; renderTournFmtCard(r); });
+  box.querySelector('#tfDetails').addEventListener('toggle', (e) => { tournAdm.fmtOpen = e.target.open; });
+  box.querySelector('[data-le-save="tf"]').onclick = async () => { const keep = tournAdm.rows; tournAdm.fmt = null; tournAdm.fmtOpen = true; if (await adminSave('legendsTournFormatsSave', { rows: JSON.stringify(rows) }, 'tfStatus', 'Formats saved.')) tournAdm.rows = keep; else tournAdm.fmt = rows; };
+}
+// Pairings and the email for one tournament.
+function renderTournPairCard() {
+  const box = document.getElementById('tnPairCard');
+  if (!box) return;
+  const list = tournList().filter((t) => t.DateKey >= addDays(board.today, -7) && tournMyKinds().indexOf(t.Kind || 'ten') !== -1).sort((a, b) => (a.DateKey < b.DateKey ? -1 : 1));
+  if (!list.length) { box.innerHTML = ''; return; }
+  if (!list.some((t) => t.TournID === tournAdm.id)) { tournAdm.id = (list.find((t) => t.DateKey >= board.today) || list[0]).TournID; tournAdm.view = null; }
+  const v = tournAdm.view && tournAdm.view.tourn && tournAdm.view.tourn.TournID === tournAdm.id ? tournAdm.view : null;
+  const sel = `<select id="tnPick">${list.map((t) => `<option value="${escapeHtml(t.TournID)}" ${t.TournID === tournAdm.id ? 'selected' : ''}>${escapeHtml(t.title)} · ${escapeHtml(dateShort(t.DateKey))}</option>`).join('')}</select>`;
+  let body = '<p class="hint">Loading…</p>';
+  if (v) {
+    const t = v.tourn, byId = {};
+    v.players.concat(v.standby).forEach((p) => { byId[p.PlayerID] = p; });
+    const e = tournAdm.edit || { teams: v.teams.map((tm) => tm.slice()) };
+    tournAdm.edit = e;
+    const placed = {}; e.teams.forEach((tm) => tm.forEach((id) => { placed[id] = true; }));
+    const unplaced = v.players.filter((p) => !placed[p.PlayerID]);
+    const nm = (p) => `${escapeHtml(displayName(p.Name))} <span class="hint">${escapeHtml(p.HI || '–')}${p.Tee ? ' · ' + escapeHtml(p.Tee) : ''}</span>`;
+    const moveSel = (id, at) => `<select data-tn-move="${escapeHtml(id)}">${e.teams.map((_, i) => `<option value="${i}" ${i === at ? 'selected' : ''}>Team ${i + 1}</option>`).join('')}<option value="new">New team</option><option value="out" ${at === -1 ? 'selected' : ''}>Not on a team</option></select>`;
+    const hiNum = (p) => { const h = cleanHi(p && p.HI); return h ? (h[0] === '+' ? -Number(h.slice(1)) : Number(h)) : null; };
+    const mean = (tm) => { const xs = tm.map((id) => hiNum(byId[id])).filter((x) => x !== null); return xs.length ? (xs.reduce((a, b) => a + b, 0) / xs.length).toFixed(1) : '–'; };
+    const teamRows = e.teams.map((tm, i) => {
+      const hs = (id) => { const h = hiNum(byId[id]); return h === null ? 99 : h; };
+      const ids = tm.slice().sort((a, b) => hs(a) - hs(b));
+      return `<tr><td><b>${escapeHtml((t.teeList || [])[i] || 'TBD')}</b></td><td>Team ${i + 1}</td><td>${ids.map((id, k) => byId[id] ? `<div class="tn-p"><b>${'ABCDE'[k]}</b> ${nm(byId[id])} ${moveSel(id, i)}</div>` : '').join('')}</td><td>${mean(tm)}</td></tr>`;
+    }).join('');
+    body = `<p class="hint">${v.players.length} signed up of ${t.slots} places${v.standby.length ? `, ${v.standby.length} on standby` : ''} · ${escapeHtml(tournWhoText(t))} · ${t.teeTimes} tee times · ${escapeHtml(tournTimes(t))} · sign-ups ${tournState(t) === 'closed' ? 'closed' : 'close'} ${escapeHtml(dateShort(t.closes))} at 11:59 PM.</p>
+      <p class="hint">Teams are made by ranking the players by Handicap Index into A, B, C and D players and giving each team one of each, trying thousands of mixes and keeping the one with the closest team averages (and the fewest partners from the last tournament). They're made automatically when sign-ups close, or click <b>Make teams</b> any time. Use the menus to move a player, then <b>Save teams</b>.</p>
+      <div class="row"><button class="primary" id="tnMake">${e.teams.length ? 'Redo teams' : 'Make teams'}</button>${e.teams.length ? '<button class="secondary" id="tnSave">Save teams</button>' : ''}</div>
+      ${v.gone.length ? `<p class="status error">No longer signed up (left out): ${v.gone.map((g) => escapeHtml(displayName(g.Name || g.PlayerID))).join(', ')}</p>` : ''}
+      ${e.teams.length ? `<div class="tbl-wrap"><table class="ad"><thead><tr><th>Tee time</th><th>Team</th><th>Players (index · tees)</th><th>Avg index</th></tr></thead><tbody>${teamRows}</tbody></table></div>` : '<p class="hint">No teams yet.</p>'}
+      ${unplaced.length ? `<p><b>Not on a team yet:</b></p>${unplaced.map((p) => `<div class="tn-p">${nm(p)} ${e.teams.length ? moveSel(p.PlayerID, -1) : ''}</div>`).join('')}` : ''}
+      ${v.standby.length ? `<p class="hint"><b>Standby:</b> ${v.standby.map((p) => escapeHtml(displayName(p.Name))).join(', ')}</p>` : ''}
+      <h3>Pairings email</h3>
+      <p class="hint">To ${escapeHtml(tournSendWords(board.settings))}. ${v.emailSent ? `Last sent ${escapeHtml(whenLabel(Date.parse(v.emailSent)))}; sending again marks it UPDATED.` : 'Not sent yet.'}</p>
+      <div class="row"><button class="secondary" id="tnPreview">Preview</button><button class="primary" id="tnSend">Send now</button></div>
+      <div id="tnMail"></div>`;
+  }
+  box.innerHTML = `<div class="card"><h2>Teams and email</h2><div class="row">${sel}</div><div id="tnPairStatus" class="status"></div>${body}</div>`;
+  document.getElementById('tnPick').onchange = (ev) => { if (!leaveAdminPageOk()) { ev.target.value = tournAdm.id; return; } adminDirty = false; tournAdm.id = ev.target.value; tournAdm.view = null; tournAdm.edit = null; renderTournPairCard(); };
+  if (!v) { tournLoad('legendsTournPairGet'); return; }
+  box.querySelectorAll('[data-tn-move]').forEach((s) => s.onchange = () => {
+    const id = s.dataset.tnMove, e = tournAdm.edit;
+    e.teams = e.teams.map((tm) => tm.filter((x) => x !== id));
+    if (s.value === 'new') e.teams.push([id]); else if (s.value !== 'out') e.teams[Number(s.value)].push(id);
+    e.teams = e.teams.filter((tm) => tm.length);
+    markDirty(); renderTournPairCard();
+  });
+  document.getElementById('tnMake').onclick = () => {
+    if (tournAdm.edit.teams.length && !confirm('Make new teams? Any changes you made by hand will be lost.')) return;
+    tournLoad('legendsTournPairMake', 'New teams made.');
+  };
+  const sv = document.getElementById('tnSave'); if (sv) sv.onclick = () => tournLoad('legendsTournPairSave', 'Teams saved.', { teams: JSON.stringify(tournAdm.edit.teams) });
+  document.getElementById('tnPreview').onclick = async () => {
+    if (adminDirty) { showStatus('tnPairStatus', false, 'Save your changes first, so the email shows them.'); return; }
+    const mb = document.getElementById('tnMail'); mb.innerHTML = '<p class="hint">Loading preview…</p>';
+    try {
+      const res = await apiPost('legendsTournEmailPreview', { id: tournAdm.id, settings: JSON.stringify(tournMailValues()) });
+      if (!res.success) { if (!handleAdminRejected(res.error)) mb.innerHTML = `<p class="status error">${escapeHtml(cleanError(res.error))}</p>`; return; }
+      const m = res.data;
+      mb.innerHTML = `<div class="preview-box"><div class="hint"><b>${m.total} recipient${m.total === 1 ? '' : 's'}</b>${m.viaGroup ? ` (the Google Group ${escapeHtml(m.viaGroup)} counts as 1)` : ''}<br><b>To:</b> ${escapeHtml(m.to || '(nobody)')}${m.cc ? `<br><b>Cc:</b> ${escapeHtml(m.cc)}` : ''}<br><b>Subject:</b> ${escapeHtml(m.subject)}</div><hr>${m.html}</div>`;
+    } catch (er) { mb.innerHTML = '<p class="status error">Could not reach the server — try again.</p>'; }
+  };
+  document.getElementById('tnSend').onclick = () => {
+    if (adminDirty) { showStatus('tnPairStatus', false, 'Save your changes first.'); return; }
+    if (!confirm(`Send the ${v.tourn.title} email for ${dateShort(v.tourn.DateKey)}${v.emailSent ? ' again' : ''}? Use Preview first to check who gets it.`)) return;
+    tournLoad('legendsTournEmailSend', 'Sent.');
+  };
+}
+async function tournLoad(action, okMsg, extra) {
+  showStatus('tnPairStatus', true, action === 'legendsTournPairGet' ? 'Loading…' : action === 'legendsTournEmailSend' ? 'Sending…' : 'Saving…');
+  try {
+    const res = await apiPost(action, Object.assign({ id: tournAdm.id }, extra || {}));
+    if (!res.success) { if (!handleAdminRejected(res.error)) showStatus('tnPairStatus', false, cleanError(res.error)); return; }
+    tournAdm.view = res.data; tournAdm.edit = null; adminDirty = false;
+    const dn = document.getElementById('adDirty'); if (dn) dn.hidden = true;
+    // keep the board's copy of the teams in step (Sign-ups and the Tournaments tab show them)
+    const t = tournById(tournAdm.id);
+    if (t && res.data.tourn) t.pairings = res.data.tourn.pairings;
+    if (adminSub === 'tournaments') renderTournPairCard();
+    if (okMsg) showStatus('tnPairStatus', true, okMsg);
+  } catch (e) { showStatus('tnPairStatus', false, 'Could not reach the server — try again.'); }
+}
+// Who gets the tournament email (Tom 2026-11-24: through the Legends Google Group to save the daily limit).
+const TOURN_SEND_OPTS = [['legends', 'All Legends'], ['players', 'Players signed up (and standby), each by name'], ['proshop', 'Pro shop'], ['admin', 'Admin'], ['extra', 'Also send to (below)']];
+function tournSendTo(s) { return String(s.TournEmailSendTo == null ? 'legends,proshop,admin,extra' : s.TournEmailSendTo).split(/[,\s]+/).filter(Boolean); }
+function tournSendWords(s) {
+  const to = tournSendTo(s), grp = String(s.DailyGroupEmail || '').trim(), w = [];
+  if (to.indexOf('legends') !== -1) w.push(grp ? `all the Legends through the Google Group (${grp})` : 'everyone signed up and on standby (no Legends Google Group is set under Sign-up summary)');
+  if (to.indexOf('players') !== -1 && !(to.indexOf('legends') !== -1 && !grp)) w.push(grp && to.indexOf('legends') !== -1 ? 'players not in the group, by name' : 'everyone signed up and on standby');
+  ['proshop', 'admin'].forEach((k) => { if (to.indexOf(k) !== -1) w.push(k === 'proshop' ? 'the pro shop' : 'the admin'); });
+  if (to.indexOf('extra') !== -1 && String(s.TournEmailExtraEmails || '').trim()) w.push('the extra addresses');
+  return w.length ? w.join(', ').replace(/, ([^,]*)$/, ' and $1') : 'nobody (tick who gets it under Tournament settings and email)';
+}
+function tournMailValues() {
+  const g = (id) => document.getElementById(id);
+  if (!g('tmOn')) return {};
+  return { TournEmailOn: g('tmOn').checked ? 'TRUE' : 'FALSE', TournEmailHour: g('tmHour').value, TournEmailSendTo: [...document.querySelectorAll('[data-tm-to]')].filter((x) => x.checked).map((x) => x.dataset.tmTo).join(','),
+    TournEmailExtraEmails: g('tmExtra').value, TournEmailMessage: g('tmMsg').value, TournEmailFooterText: g('tmFoot').value, TournCloseDaysBefore: g('tmClose').value, TournTees: g('tmTees').value.split(',').map((x) => x.trim()).filter(Boolean).join(',') };
+}
+function renderTournMailCard() {
+  const box = document.getElementById('tnMailCard');
+  if (!box) return;
+  if (!amAdmin() && !amViewOnly()) { box.innerHTML = '<div class="card"><p class="hint" style="margin:0;">The tournament email settings (send automatically, message, who is copied) are changed by a Full admin. You can preview and send your tournament\'s email above.</p></div>'; return; }
+  const s = board.settings;
+  box.innerHTML = `<div class="card"><h2>Tournament settings and email</h2>
+    <p class="hint">The <b>pairings email</b> lists the date, tee times, game, prizes and the teams (A, B, C, D players with their index), and goes to ${escapeHtml(tournSendWords(s))}. Gmail allows about 100 recipients a day, so sending through the Legends Google Group (1 recipient) is much cheaper than sending to each player. With it <b>On</b>, it goes automatically the morning after sign-ups close (teams are made then if there aren't any). With it Off, it only goes when you click <b>Send now</b> above.</p>
+    <label class="em-switch"><input type="checkbox" id="tmOn" ${s.TournEmailOn === 'TRUE' ? 'checked' : ''}> <b>Send automatically</b></label>
+    <div class="row" style="margin-top:8px;"><label>at <select id="tmHour">${emHourOpts(String(s.TournEmailHour || '9'))}</select> the morning after sign-ups close</label></div>
+    <div class="row" style="margin-top:8px;"><label>New tournaments: sign-ups close <input type="number" id="tmClose" min="0" max="14" style="width:60px;" value="${escapeHtml(s.TournCloseDaysBefore || '3')}"> days before (you can change any tournament's date in the list)</label></div>
+    <label style="display:block;margin-top:8px;">Tees players choose from (comma-separated)</label><input type="text" id="tmTees" value="${escapeHtml(String(s.TournTees || 'Gold,Red').split(',').join(', '))}" placeholder="Gold, Red">
+    <label style="display:block;margin-top:8px;"><b>Send to</b></label>
+    ${TOURN_SEND_OPTS.map(([k, l]) => `<label style="display:block;margin-left:4px;"><input type="checkbox" data-tm-to="${k}" ${tournSendTo(s).indexOf(k) !== -1 ? 'checked' : ''}> ${escapeHtml(l)}${k === 'legends' ? ` <span class="hint">(${s.DailyGroupEmail ? 'the Google Group ' + escapeHtml(s.DailyGroupEmail) + ': counts as 1 toward the daily limit' : 'no Google Group set under Admin › Setup › Emails › Sign-up summary, so it goes to the players by name'})</span>` : k === 'proshop' ? ` <span class="hint">(${escapeHtml(s.ProShopEmails || 'not set')})</span>` : k === 'players' ? ' <span class="hint">(each one counts toward the daily limit)</span>' : ''}</label>`).join('')}
+    <label style="display:block;margin-top:8px;">Also send to (other addresses, comma-separated)</label><input type="text" id="tmExtra" value="${escapeHtml(s.TournEmailExtraEmails || '')}" placeholder="e.g. name@theheritageclub.net">
+    <label style="display:block;margin-top:8px;">Message at the top (optional)</label><textarea id="tmMsg" rows="2" placeholder="e.g. Please check in at the pro shop by 7:45 and pay your $10.">${escapeHtml(s.TournEmailMessage || '')}</textarea>
+    <label style="display:block;margin-top:8px;">Closing line</label><input type="text" id="tmFoot" value="${escapeHtml(s.TournEmailFooterText || '')}">
+    <div class="row" style="margin-top:10px;"><button class="primary" id="tmSave">Save settings</button></div><div id="tmStatus" class="status"></div></div>`;
+  box.querySelectorAll('input, textarea, select').forEach((x) => x.addEventListener('input', markDirty));
+  document.getElementById('tmSave').onclick = async () => {
+    const keepRows = tournAdm.rows;
+    if (await adminSave('legendsTournSettings', { settings: JSON.stringify(tournMailValues()) }, 'tmStatus', 'Settings saved.')) tournAdm.rows = keepRows;
+  };
 }
 function eventOpensKey(e) { return e.SignupOpens || addDays(e.DateKey, -14); }
 function eventState(e) { return board.today < eventOpensKey(e) ? 'notyet' : 'open'; }
@@ -5252,13 +6181,14 @@ const EM_SIMPLE = [
   ['LateDropEmailOn', 'latedrop', 'Late drop-out note to the admin', 'When someone drops out of a round after sign-ups have closed, the Legends admin email gets a note saying who dropped out and who moved up from standby, in case the pro shop needs to be told. It is still recorded on Admin › Pairings › No-shows either way.'],
   ['SwapEmailOn', 'swap', 'Tee Time Duty swap emails', 'A member who is asked to swap duty dates gets an email, and the member who asked gets one when it is accepted, declined or cancelled. When Off, the request still shows on the other member\'s My SUN Snapshot and Tee Time Duty tab for them to accept or decline.'],
   ['PinResetEmailOn', 'pinreset', '"Forgot your PIN?" reset code', 'A member who forgot their PIN clicks <b>Forgot your PIN?</b> on the sign-in page and gets a 6-digit code at the email address on file. The code works for 15 minutes; they enter it and choose a new PIN, with no admin needed. When Off, the sign-in page tells them to ask an admin to reset it. At most one code a minute per member, and each one is logged on Admin › Info › Activity.'],
+  ['DutyAwayEmailOn', 'dutyaway', 'Away weeks reminder (Tee Time Duty)', 'Members who do tee time duty and haven\'t yet saved their away weeks for next quarter get an email asking them to: on the day the box opens (6 weeks before the quarter), then once a week, and 2 days before it is due (for Q1 2027, Mon, Dec 14). It stops for each member once they click Save. Whether On or Off, they also see a reminder on My SUN Snapshot.', 'Sent at 9 AM on those days, from the Legends email'],
   ['ListChangeEmailOn', 'listchange', 'Email list change note to the admin', 'When a member changes which Legends email list they are on (Fun, Nassau or Both) under My info, the Legends admin email gets a note so the Google Groups can be updated by hand. The choice is always saved in the Members list either way.'],
 ];
 function emSimpleHtml() {
   const st = board.settings;
-  return EM_SIMPLE.map(([key, type, title, desc]) => `<div class="em-item">
+  return EM_SIMPLE.map(([key, type, title, desc, when]) => `<div class="em-item">
     ${emHeadHtml(type, title, key, String(st[key]).toUpperCase() === 'TRUE')}
-    <div class="em-panel" data-em-panel="${type}" ${emOpen[type] ? '' : 'hidden'}><p class="hint">${desc}</p><p class="hint">Sent right away when it happens, from the Legends email (${escapeHtml(st.AdminEmail || 'no address set')}).</p></div>
+    <div class="em-panel" data-em-panel="${type}" ${emOpen[type] ? '' : 'hidden'}><p class="hint">${desc}</p><p class="hint">${when || 'Sent right away when it happens, from the Legends email'} (${escapeHtml(st.AdminEmail || 'no address set')}).</p></div>
   </div>`).join('');
 }
 // "Moved up from standby": sent right away when a standby player gets a spot, so it
@@ -5371,6 +6301,7 @@ function renderEmailsAdmin(el) {
     ${EMAIL_TYPES.map(emPanelHtml).join('')}
     ${emStandbyHtml()}
     ${emSimpleHtml()}
+    <div id="tnMailCard"></div>
     <div class="card"><h2>All emails</h2>
       <label>App link in emails</label><input type="text" data-emset="SiteUrl" value="${escapeHtml(st.SiteUrl || '')}">
       <p class="hint">The automatic emails go out from the hourly job, once per date. Gmail allows about 100 recipients a day in total — “Fun Group players for tomorrow” uses one per player.</p>
@@ -5410,6 +6341,7 @@ function renderEmailsAdmin(el) {
   });
   el.querySelectorAll('[data-em-save]').forEach((b) => b.onclick = () => adminSave('legendsSaveAppSettings', { settings: JSON.stringify(emCollect(el)) }, 'emStatus-' + b.dataset.emSave));
   const sbp = el.querySelector('[data-sb-preview]'); if (sbp) sbp.onclick = () => emStandbyPreview(el);
+  renderTournMailCard(); // the tournament pairings email, also on Setup › Tournaments (Tom 2026-11-24)
   el.querySelectorAll('[data-rem-preview]').forEach((b) => b.onclick = () => emPreview(el, b.dataset.remPreview, el.querySelector(`[data-rem-date="${b.dataset.remPreview}"]`).value));
   el.querySelectorAll('[data-rem-date]').forEach((i) => i.addEventListener('change', () => {
     const s = el.querySelector(`[data-em-sent="${i.dataset.remDate}"]`);
